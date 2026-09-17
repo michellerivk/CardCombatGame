@@ -16,9 +16,13 @@ public class CardView : MonoBehaviour
 
     [SerializeField] private Card _card;
 
-    void OnEnable()
+    void Awake()
     {
-        _card.OnSetup += SetupCardView;
+        _card ??= GetComponent<Card>();
+    }
+    void Start()
+    {
+        SetupCardView();
     }
 
     public void SetupCardView()

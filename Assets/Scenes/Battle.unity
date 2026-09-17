@@ -947,6 +947,7 @@ GameObject:
   m_Component:
   - component: {fileID: 588753454}
   - component: {fileID: 588753455}
+  - component: {fileID: 588753456}
   m_Layer: 0
   m_Name: Card
   m_TagString: Untagged
@@ -983,6 +984,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Card
   _cardSO: {fileID: 11400000, guid: 59b8781bf8ed39b44a296d342be7e71f, type: 2}
+--- !u!114 &588753456
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 588753453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f64a31a58ba5f741bc5a967601a49f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CardView
   _healthText: {fileID: 683902562}
   _attackText: {fileID: 1526929594}
   _manaText: {fileID: 2076604327}
@@ -991,6 +1004,7 @@ MonoBehaviour:
   _loreText: {fileID: 1896373034}
   _characterArt: {fileID: 14709399}
   _bgArt: {fileID: 265930196}
+  _card: {fileID: 588753455}
 --- !u!1 &683902560
 GameObject:
   m_ObjectHideFlags: 0

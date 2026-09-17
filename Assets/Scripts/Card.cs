@@ -1,24 +1,24 @@
-using TMPro;
+using System;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class Card : MonoBehaviour
 {
     [Header("SO")]
     [SerializeField] private CardSO _cardSO;
 
-    [Header("UI Elements")]
-    [SerializeField] private TextMeshProUGUI _healthText;
-    [SerializeField] private TextMeshProUGUI _attackText;
-    [SerializeField] private TextMeshProUGUI _manaText;
-    [SerializeField] private TextMeshProUGUI _nameText;
-    [SerializeField] private TextMeshProUGUI _descriptionText;
-    [SerializeField] private TextMeshProUGUI _loreText;
-    [SerializeField] private Image _characterArt;
-    [SerializeField] private Image _bgArt;
-
-
     private int _currentHealth, _attackPower, _manaCost;
+
+    public int CurrentHealth => _currentHealth;
+    public int AttackPower => _attackPower;
+    public int ManaCost => _manaCost;
+
+    public string CardName => _cardSO.cardName;
+    public string CardDescription => _cardSO.actionDescription;
+    public string CardLore => _cardSO.cardLore;
+    public Sprite CardCharacter => _cardSO.characterSprite;
+    public Sprite CardBG => _cardSO.bgSprite;
+
+    public event Action OnSetup;
 
     void Start()
     {
@@ -31,20 +31,6 @@ public class Card : MonoBehaviour
         _attackPower = _cardSO.attackPower;
         _manaCost = _cardSO.manaCost;
 
-
-        // Move the following commands to a new view script and make the interactions event based!
-
-        _healthText.text = _currentHealth.ToString();
-        _attackText.text = _attackPower.ToString();
-        _manaText.text = _manaCost.ToString();
-
-        _nameText.text = _cardSO.cardName;
-        _descriptionText.text = _cardSO.actionDescription;
-        _loreText.text = _cardSO.cardLore;
-
-        _bgArt.sprite = _cardSO.bgSprite;
-        _characterArt.sprite = _cardSO.characterSprite;
+        OnSetup?.Invoke();
     }
-
-
 }

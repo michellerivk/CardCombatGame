@@ -667,6 +667,7 @@ GameObject:
   - component: {fileID: 2141041189183007327}
   - component: {fileID: 7380067885903039167}
   - component: {fileID: 457269089507390905}
+  - component: {fileID: 7129845762206091062}
   - component: {fileID: -151515588244829138}
   m_Layer: 0
   m_Name: Card
@@ -704,7 +705,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Card
   _cardSO: {fileID: 11400000, guid: 59b8781bf8ed39b44a296d342be7e71f, type: 2}
-  _handController: {fileID: 0}
 --- !u!114 &2141041189183007327
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -737,9 +737,9 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bcafeec1b0eb74b43b565771adaf1888, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CardHoverAnimator
-  _card: {fileID: 2258118926653809782}
-  _cardDealingAnimator: {fileID: 457269089507390905}
+  m_EditorClassIdentifier: Assembly-CSharp::CardPointerInput
+  _handState: {fileID: 7129845762206091062}
+  _motion: {fileID: 457269089507390905}
 --- !u!114 &457269089507390905
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -751,10 +751,22 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cbdfd345423379a4c874dde5ffa35b26, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CardAnimator
-  _handController: {fileID: 0}
+  m_EditorClassIdentifier: Assembly-CSharp::CardMotion
   _moveSpeed: 5
   _rotateSpeed: 540
+  _hoverOffset: {x: 0, y: 1, z: 0.5}
+--- !u!114 &7129845762206091062
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4395408384470247304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e6fbbd53ea54909a3a835fef89539c1, type: 3}
+  m_Name: ''
+  m_EditorClassIdentifier: Assembly-CSharp::CardHandState
 --- !u!65 &-151515588244829138
 BoxCollider:
   m_ObjectHideFlags: 0

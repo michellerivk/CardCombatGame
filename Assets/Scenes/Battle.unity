@@ -431,10 +431,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 777133876}
     m_Modifications:
-    - target: {fileID: 457269089507390905, guid: cc5b22b48e07d3847ac94f3c4356aba4, type: 3}
-      propertyPath: _handController
-      value: 
-      objectReference: {fileID: 721038401}
     - target: {fileID: 1982895217852623605, guid: cc5b22b48e07d3847ac94f3c4356aba4, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.5
@@ -475,10 +471,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2258118926653809782, guid: cc5b22b48e07d3847ac94f3c4356aba4, type: 3}
-      propertyPath: _handController
-      value: 
-      objectReference: {fileID: 721038401}
     - target: {fileID: 4395408384470247304, guid: cc5b22b48e07d3847ac94f3c4356aba4, type: 3}
       propertyPath: m_Name
       value: Card (4)
@@ -812,10 +804,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 777133876}
     m_Modifications:
-    - target: {fileID: 457269089507390905, guid: cc5b22b48e07d3847ac94f3c4356aba4, type: 3}
-      propertyPath: _handController
-      value: 
-      objectReference: {fileID: 721038401}
     - target: {fileID: 1982895217852623605, guid: cc5b22b48e07d3847ac94f3c4356aba4, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.5
@@ -856,10 +844,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2258118926653809782, guid: cc5b22b48e07d3847ac94f3c4356aba4, type: 3}
-      propertyPath: _handController
-      value: 
-      objectReference: {fileID: 721038401}
     - target: {fileID: 4395408384470247304, guid: cc5b22b48e07d3847ac94f3c4356aba4, type: 3}
       propertyPath: m_Name
       value: Card (6)
@@ -1035,10 +1019,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 777133876}
     m_Modifications:
-    - target: {fileID: 457269089507390905, guid: cc5b22b48e07d3847ac94f3c4356aba4, type: 3}
-      propertyPath: _handController
-      value: 
-      objectReference: {fileID: 721038401}
     - target: {fileID: 1982895217852623605, guid: cc5b22b48e07d3847ac94f3c4356aba4, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.5
@@ -1079,10 +1059,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2258118926653809782, guid: cc5b22b48e07d3847ac94f3c4356aba4, type: 3}
-      propertyPath: _handController
-      value: 
-      objectReference: {fileID: 721038401}
     - target: {fileID: 4395408384470247304, guid: cc5b22b48e07d3847ac94f3c4356aba4, type: 3}
       propertyPath: m_Name
       value: Card (1)
@@ -1105,10 +1081,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 777133876}
     m_Modifications:
-    - target: {fileID: 457269089507390905, guid: cc5b22b48e07d3847ac94f3c4356aba4, type: 3}
-      propertyPath: _handController
-      value: 
-      objectReference: {fileID: 721038401}
     - target: {fileID: 1982895217852623605, guid: cc5b22b48e07d3847ac94f3c4356aba4, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.5
@@ -1149,10 +1121,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2258118926653809782, guid: cc5b22b48e07d3847ac94f3c4356aba4, type: 3}
-      propertyPath: _handController
-      value: 
-      objectReference: {fileID: 721038401}
     - target: {fileID: 4395408384470247304, guid: cc5b22b48e07d3847ac94f3c4356aba4, type: 3}
       propertyPath: m_Name
       value: Card (5)
@@ -1300,10 +1268,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 777133876}
     m_Modifications:
-    - target: {fileID: 457269089507390905, guid: cc5b22b48e07d3847ac94f3c4356aba4, type: 3}
-      propertyPath: _handController
-      value: 
-      objectReference: {fileID: 721038401}
     - target: {fileID: 1982895217852623605, guid: cc5b22b48e07d3847ac94f3c4356aba4, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.5
@@ -1344,10 +1308,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2258118926653809782, guid: cc5b22b48e07d3847ac94f3c4356aba4, type: 3}
-      propertyPath: _handController
-      value: 
-      objectReference: {fileID: 721038401}
     - target: {fileID: 4395408384470247304, guid: cc5b22b48e07d3847ac94f3c4356aba4, type: 3}
       propertyPath: m_Name
       value: Card (3)
@@ -1473,10 +1433,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 777133876}
     m_Modifications:
-    - target: {fileID: 457269089507390905, guid: cc5b22b48e07d3847ac94f3c4356aba4, type: 3}
-      propertyPath: _handController
-      value: 
-      objectReference: {fileID: 721038401}
     - target: {fileID: 1982895217852623605, guid: cc5b22b48e07d3847ac94f3c4356aba4, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.5
@@ -1517,10 +1473,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2258118926653809782, guid: cc5b22b48e07d3847ac94f3c4356aba4, type: 3}
-      propertyPath: _handController
-      value: 
-      objectReference: {fileID: 721038401}
     - target: {fileID: 4395408384470247304, guid: cc5b22b48e07d3847ac94f3c4356aba4, type: 3}
       propertyPath: m_Name
       value: Card (2)
@@ -1682,10 +1634,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 777133876}
     m_Modifications:
-    - target: {fileID: 457269089507390905, guid: cc5b22b48e07d3847ac94f3c4356aba4, type: 3}
-      propertyPath: _handController
-      value: 
-      objectReference: {fileID: 721038401}
     - target: {fileID: 1982895217852623605, guid: cc5b22b48e07d3847ac94f3c4356aba4, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.5
@@ -1726,10 +1674,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2258118926653809782, guid: cc5b22b48e07d3847ac94f3c4356aba4, type: 3}
-      propertyPath: _handController
-      value: 
-      objectReference: {fileID: 721038401}
     - target: {fileID: 4395408384470247304, guid: cc5b22b48e07d3847ac94f3c4356aba4, type: 3}
       propertyPath: m_Name
       value: Card (7)
@@ -1774,10 +1718,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 777133876}
     m_Modifications:
-    - target: {fileID: 457269089507390905, guid: cc5b22b48e07d3847ac94f3c4356aba4, type: 3}
-      propertyPath: _handController
-      value: 
-      objectReference: {fileID: 721038401}
     - target: {fileID: 1982895217852623605, guid: cc5b22b48e07d3847ac94f3c4356aba4, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.5
@@ -1818,10 +1758,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2258118926653809782, guid: cc5b22b48e07d3847ac94f3c4356aba4, type: 3}
-      propertyPath: _handController
-      value: 
-      objectReference: {fileID: 721038401}
     - target: {fileID: 4395408384470247304, guid: cc5b22b48e07d3847ac94f3c4356aba4, type: 3}
       propertyPath: m_Name
       value: Card

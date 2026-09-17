@@ -15,13 +15,28 @@ public class CardView : MonoBehaviour
     [SerializeField] private Image _bgArt;
 
     [SerializeField] private Card _card;
+    private bool _started;
 
     void Awake()
     {
         _card ??= GetComponent<Card>();
     }
+
+    void OnEnable()
+    {
+        _card.OnChanged += SetupCardView;
+        if (_started)
+            SetupCardView();
+    }
+
+    void OnDisable()
+    {
+        _card.OnChanged -= SetupCardView;
+    }
+
     void Start()
     {
+        _started = true;
         SetupCardView();
     }
 

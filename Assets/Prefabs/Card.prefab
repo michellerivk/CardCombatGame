@@ -669,6 +669,8 @@ GameObject:
   - component: {fileID: 457269089507390905}
   - component: {fileID: 7129845762206091062}
   - component: {fileID: -151515588244829138}
+  - component: {fileID: 8696071637115004040}
+  - component: {fileID: 4818749744774891033}
   m_Layer: 0
   m_Name: Card
   m_TagString: Untagged
@@ -752,9 +754,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbdfd345423379a4c874dde5ffa35b26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CardMotion
-  _moveSpeed: 5
+  _cardSelectionCR: {fileID: 8696071637115004040}
+  _whatIsDesktop:
+    serializedVersion: 2
+    m_Bits: 64
+  _moveSpeed: 7
   _rotateSpeed: 540
   _hoverOffset: {x: 0, y: 1, z: 0.5}
+  _selectedHeight: 1
 --- !u!114 &7129845762206091062
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -765,7 +772,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3e6fbbd53ea54909a3a835fef89539c1, type: 3}
-  m_Name: ''
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CardHandState
 --- !u!65 &-151515588244829138
 BoxCollider:
@@ -788,6 +795,42 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.3, y: 0.02, z: 1.8}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &8696071637115004040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4395408384470247304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fee58de5f009f8448c264c84cb897a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CardSelectionController
+  _input: {fileID: 7380067885903039167}
+  _isSelected: 0
+  _collider: {fileID: -151515588244829138}
+--- !u!114 &4818749744774891033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4395408384470247304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6810e9b838f1fb046933417c4dde3081, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CardPlacementController
+  _card: {fileID: 2258118926653809782}
+  _input: {fileID: 7380067885903039167}
+  _selection: {fileID: 8696071637115004040}
+  _handState: {fileID: 7129845762206091062}
+  _motion: {fileID: 457269089507390905}
+  _whatIsPlacement:
+    serializedVersion: 2
+    m_Bits: 128
+  _placementHeight: 0.1
 --- !u!1 &5136763902378885225
 GameObject:
   m_ObjectHideFlags: 0

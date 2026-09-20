@@ -31,4 +31,25 @@ public class HandController : MonoBehaviour
             motion.SetHandPose(minPos.position + distanceBetweenPoints * i, minPos.rotation);
         }
     }
+
+    public bool RemoveCardFromHand(CardHandState cardToRemove)
+    {
+        if (cardToRemove == null || !cardToRemove.TryGetComponent(out Card card))
+        {
+            Debug.LogError("The card being removed needs Card and CardHandState components.");
+            return false;
+        }
+
+        int cardIndex = heldCards.IndexOf(card);
+        if (cardIndex < 0)
+        {
+            Debug.LogError($"{card.name} is not registered in this hand.", card);
+            return false;
+        }
+
+        heldCards.RemoveAt(cardIndex);
+        cardToRemove.RemoveFromHand();
+        SetCardPositionsInHand();
+        return true;
+    }
 }

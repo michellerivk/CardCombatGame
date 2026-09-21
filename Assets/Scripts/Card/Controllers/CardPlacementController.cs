@@ -73,9 +73,6 @@ public class CardPlacementController : MonoBehaviour
             return;
         }
 
-        if (!_mana.TrySpend(_card.ManaCost))
-            return;
-
         Ray ray = _mainCamera.ScreenPointToRay(pointerPosition);
 
         if (!Physics.Raycast(ray,out RaycastHit hit, 100f, _whatIsPlacement))
@@ -93,6 +90,9 @@ public class CardPlacementController : MonoBehaviour
             ReturnToHand();
             return;
         }
+
+        if (!_mana.TrySpend(_card.ManaCost))
+            return;
 
         PlaceCard(selectedPoint);
     }

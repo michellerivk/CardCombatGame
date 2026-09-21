@@ -6,6 +6,8 @@ public class HandController : MonoBehaviour
     [SerializeField] private List<Card> heldCards = new List<Card>();
     [SerializeField] private Transform minPos, maxPos;
 
+    public IReadOnlyList<Card> HeldCards => heldCards;
+
     private void Start()
     {
         SetCardPositionsInHand();
@@ -51,5 +53,14 @@ public class HandController : MonoBehaviour
         cardToRemove.RemoveFromHand();
         SetCardPositionsInHand();
         return true;
+    }
+
+    public void AddCard(Card card)
+    {
+        if (card == null || heldCards.Contains(card))
+            return;
+
+        heldCards.Add(card);
+        SetCardPositionsInHand();
     }
 }

@@ -7,17 +7,16 @@ public class CardPlacementController : MonoBehaviour
     [SerializeField] private CardSelectionController _selection;
     [SerializeField] private CardHandState _handState;
     [SerializeField] private CardMotion _motion;
-    [SerializeField] private HandController _handController;
-
     [SerializeField] private LayerMask _whatIsPlacement;
 
     private Camera _mainCamera;
     private int _selectedFrame = -1;
+    private ManaPool _mana;
+    private HandController _handController;
 
     private void Awake()
     {
         _mainCamera = Camera.main;
-        _handController ??= FindAnyObjectByType<HandController>();
     }
 
     private void OnEnable()
@@ -30,6 +29,21 @@ public class CardPlacementController : MonoBehaviour
     {
         _input.OnPlacementInteraction -= TryPlaceCard;
         _selection.OnSelectionChanged -= HandleSelectionChanged;
+    }
+
+    public void Initialize(HandController handController, ManaPool mana)
+    {
+        if (handController == null || mana == null)
+        {
+            Debug.LogError(
+                $"{name} received invalid player dependencies.",
+                this);
+
+            return;
+        }
+
+        _handController = handController;
+        _mana = mana;
     }
 
     private void HandleSelectionChanged(bool isSelected)
@@ -48,6 +62,19 @@ public class CardPlacementController : MonoBehaviour
             ReturnToHand();
             return;
         }
+
+        if (_handController == null || _mana == null)
+        {
+            Debug.LogError(
+                $"{name} has not been initialized by PlayerBattleContext.",
+                this);
+
+            ReturnToHand();
+            return;
+        }
+
+        if (!_mana.TrySpend(_card.ManaCost))
+            return;
 
         Ray ray = _mainCamera.ScreenPointToRay(pointerPosition);
 

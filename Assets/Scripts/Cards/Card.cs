@@ -20,7 +20,7 @@ public class Card : MonoBehaviour
 
     public event Action OnChanged;
 
-    void Awake()
+    private void Awake()
     {
         SetupCardData();
     }
@@ -37,6 +37,19 @@ public class Card : MonoBehaviour
         if (_currentHealth == health) return;
 
         _currentHealth = health;
+        OnChanged?.Invoke();
+    }
+
+    public void Initialize(CardSO definition)
+    {
+        if (definition == null)
+        {
+            Debug.LogError("Cannot initialize a card without a CardSO.", this);
+            return;
+        }
+
+        _cardSO = definition;
+        SetupCardData();    
         OnChanged?.Invoke();
     }
 }

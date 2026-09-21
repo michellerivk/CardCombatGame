@@ -6,6 +6,8 @@ public class ManaPool : MonoBehaviour
     [SerializeField] private int _startingMana = 4;
     [SerializeField] private int _maximumMana = 12;
 
+    private int _playerCurrentMaxMana;
+
     public int Current { get; private set; }
     public int Maximum => _maximumMana;
 
@@ -14,7 +16,8 @@ public class ManaPool : MonoBehaviour
 
     private void Awake()
     {
-        Current = Mathf.Clamp(_startingMana, 0, _maximumMana);
+        _playerCurrentMaxMana = _startingMana;
+        Current = _playerCurrentMaxMana;
     }
     public bool CanAfford(int cost)
     {
@@ -32,5 +35,17 @@ public class ManaPool : MonoBehaviour
         Current -= cost;
         OnManaChanged?.Invoke(Current, Maximum);
         return true;
+    }
+    public void UpdatePlayerMana()
+    {
+        if(_playerCurrentMaxMana < Maximum)
+            _playerCurrentMaxMana++;
+
+        FillPlayerMana();
+    }
+    private void FillPlayerMana()
+    {
+        Current = _playerCurrentMaxMana;
+        OnManaChanged?.Invoke(Current, Maximum);
     }
 }

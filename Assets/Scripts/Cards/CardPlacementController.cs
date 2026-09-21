@@ -84,15 +84,15 @@ public class CardPlacementController : MonoBehaviour
         CardPlacePoint selectedPoint =
             hit.collider.GetComponentInParent<CardPlacePoint>();
 
+        if (!_mana.TrySpend(_card.ManaCost))
+            return;
+
         if (selectedPoint == null ||
             !selectedPoint.TryAssign(_card))
         {
             ReturnToHand();
             return;
         }
-
-        if (!_mana.TrySpend(_card.ManaCost))
-            return;
 
         PlaceCard(selectedPoint);
     }

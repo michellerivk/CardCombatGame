@@ -620,6 +620,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 240647339}
+  - component: {fileID: 240647340}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -647,6 +648,19 @@ Transform:
   - {fileID: 1180579509}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &240647340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 240647338}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2356c987258878458d0e928d57bfa6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerHealthController
+  _playerHealth: 50
 --- !u!1 &243685318
 GameObject:
   m_ObjectHideFlags: 0
@@ -830,13 +844,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 432152302}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.5, y: 0, z: 1.5}
+  m_LocalRotation: {x: 0, y: 0, z: -1, w: 0}
+  m_LocalPosition: {x: -8.45, y: 0, z: 1.23}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4619754}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -180}
 --- !u!1 &455622247
 GameObject:
   m_ObjectHideFlags: 0
@@ -895,6 +909,8 @@ MonoBehaviour:
   - {fileID: 1455071976}
   - {fileID: 2103689732}
   - {fileID: 2062714079}
+  _discardPoint: {fileID: 432152303}
+  _playerHealthController: {fileID: 240647340}
 --- !u!1 &466963356
 GameObject:
   m_ObjectHideFlags: 0

@@ -7,10 +7,12 @@ public class Card : MonoBehaviour
     [SerializeField] private CardSO _cardSO;
 
     private int _currentHealth, _attackPower, _manaCost;
+    private bool _isDefeated;
 
     public int CurrentHealth => _currentHealth;
     public int AttackPower => _attackPower;
     public int ManaCost => _manaCost;
+    public bool IsDefeated => _isDefeated;
 
     public string CardName => _cardSO.cardName;
     public string CardDescription => _cardSO.actionDescription;
@@ -18,7 +20,7 @@ public class Card : MonoBehaviour
     public Sprite CardCharacter => _cardSO.characterSprite;
     public Sprite CardBG => _cardSO.bgSprite;
 
-    public event Action OnChanged;
+    public event Action OnChanged, OnDamage, OnAttack;
     public event Action<Card> OnDefeated;
 
     private void Awake()
@@ -28,6 +30,7 @@ public class Card : MonoBehaviour
 
     private void SetupCardData()
     {
+        _isDefeated = false;
         _currentHealth = _cardSO.currentHealth;
         _attackPower = _cardSO.attackPower;
         _manaCost = _cardSO.manaCost;
@@ -46,23 +49,32 @@ public class Card : MonoBehaviour
         OnChanged?.Invoke();
     }
 
+    public void NotifyAttack()
+    {
+        if (_isDefeated)
+            return;
+
+        OnAttack?.Invoke();
+    }
+
     public void DamageCard(int damage)
     {
+        if (_isDefeated || damage <= 0)
+            return;
+
+        OnDamage?.Invoke();
+
         SetCurrentHealth(CurrentHealth - damage);
     }
     private void SetCurrentHealth(int health)
     {
-        if (_currentHealth == health) return;
+        if (_isDefeated || _currentHealth == health) return;
 
-        _currentHealth = health;
-
-        if (_currentHealth <= 0) 
-        {
-            _currentHealth = 0;
-            OnDefeated?.Invoke(this);
-            Destroy(gameObject, 5f);
-        }
-
+        _currentHealth = Mathf.Max(0, health);
+        _isDefeated = _currentHealth == 0;
         OnChanged?.Invoke();
+
+        if (_isDefeated)
+            OnDefeated?.Invoke(this);
     }
 }

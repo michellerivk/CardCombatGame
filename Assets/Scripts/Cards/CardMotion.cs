@@ -1,4 +1,4 @@
-using System.Collections;
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -19,6 +19,8 @@ public class CardMotion : MonoBehaviour
     private bool _hasHandPose;
     private bool _isHovered;
     private bool _isSelected;
+    private bool _hasExplicitTarget;
+    private Action _onArrived;
 
     private Ray _ray;
     private RaycastHit _hit;
@@ -34,21 +36,32 @@ public class CardMotion : MonoBehaviour
 
     private void OnEnable()
     {
-        _cardSelectionCR.OnSelectionChanged += SetSelected;
+        if (_cardSelectionCR != null)
+            _cardSelectionCR.OnSelectionChanged += SetSelected;
     }
 
     private void OnDisable()
     {
-        _cardSelectionCR.OnSelectionChanged -= SetSelected;
+        if (_cardSelectionCR != null)
+            _cardSelectionCR.OnSelectionChanged -= SetSelected;
     }
 
     private void Update()
     {
-        if (!_hasHandPose)
+        if (!_hasHandPose && !_hasExplicitTarget)
             return;
 
-        UpdateTarget();
-        MoveToTarget();
+        if (!_hasExplicitTarget)
+            UpdateTarget();
+
+        bool arrived = MoveToTarget(_targetPoint, _targetRot);
+        if (_hasExplicitTarget && arrived)
+        {
+            // Clear first: the callback may request another move.
+            Action onArrived = _onArrived;
+            _onArrived = null;
+            onArrived?.Invoke();
+        }
     }
 
     public void SetHandPose(Vector3 position, Quaternion rotation)
@@ -56,7 +69,8 @@ public class CardMotion : MonoBehaviour
         HandPosition = position;
         HandRotation = rotation;
         _hasHandPose = true;
-        UpdateTarget();
+        if (!_hasExplicitTarget)
+            UpdateTarget();
     }
 
     public void SetHovered(bool isHovered)
@@ -79,7 +93,7 @@ public class CardMotion : MonoBehaviour
 
     private void UpdateTarget()
     {
-        // Selected has the highest priority.
+        // Explicit moves take priority in Update over selection and hand targets.
         if (_isSelected)
         {
             Vector2 mousePosition = Mouse.current.position.ReadValue();
@@ -96,7 +110,7 @@ public class CardMotion : MonoBehaviour
         }
 
         // A card on the board keeps the target supplied by SetTargetPose().
-        if (!_handState.IsInHand)
+        if (_handState == null || !_handState.IsInHand)
             return;
 
         // Otherwise use the hover or normal hand pose.
@@ -105,22 +119,43 @@ public class CardMotion : MonoBehaviour
         _targetRot = _isHovered ? Quaternion.identity : HandRotation;
     }
 
-    private void MoveToTarget()
+    private bool MoveToTarget(Vector3 position, Quaternion rotation)
     {
         transform.position = Vector3.MoveTowards(
             transform.position,
-            _targetPoint,
+            position,
             _moveSpeed * Time.deltaTime);
 
         transform.rotation = Quaternion.RotateTowards(
             transform.rotation,
-            _targetRot,
+            rotation,
             _rotateSpeed * Time.deltaTime);
+
+        bool arrived = (transform.position - position).sqrMagnitude <= 0.0001f &&
+                       Quaternion.Angle(transform.rotation, rotation) <= 0.5f;
+        if (arrived)
+            transform.SetPositionAndRotation(position, rotation);
+
+        return arrived;
     }
 
     public void SetTargetPose(Vector3 position, Quaternion rotation)
     {
+        MoveTo(position, rotation);
+    }
+
+    // Replaces any pending move; holds the pose after arrival until resumed or redirected.
+    public void MoveTo(Vector3 position, Quaternion rotation, Action onArrived = null)
+    {
         _targetPoint = position;
         _targetRot = rotation;
+        _onArrived = onArrived;
+        _hasExplicitTarget = true;
+    }
+
+    public void ResumeHandMotion()
+    {
+        _hasExplicitTarget = false;
+        _onArrived = null;
     }
 }

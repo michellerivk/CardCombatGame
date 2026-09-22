@@ -52,7 +52,7 @@ public class BattleController : MonoBehaviour
                 break;
 
             case TurnOrder.enemyActive:
-                AdvanceTurn();
+                StartCoroutine(RunEnemyAttacksPhase());
                 break;
 
             case TurnOrder.enemyCardAttacks:
@@ -73,6 +73,11 @@ public class BattleController : MonoBehaviour
     private IEnumerator RunPlayerAttackPhase()
     {
         yield return StartCoroutine(_cardsPointController.RunPlayerAttacks());
+        AdvanceTurn();
+    }
+    private IEnumerator RunEnemyAttacksPhase()
+    {
+        yield return StartCoroutine(_cardsPointController.RunEnemyAttacks());
         AdvanceTurn();
     }
 }

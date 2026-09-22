@@ -671,6 +671,7 @@ GameObject:
   - component: {fileID: -151515588244829138}
   - component: {fileID: 8696071637115004040}
   - component: {fileID: 4818749744774891033}
+  - component: {fileID: 413302170458234950}
   m_Layer: 0
   m_Name: Card
   m_TagString: Untagged
@@ -755,6 +756,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CardMotion
   _cardSelectionCR: {fileID: 8696071637115004040}
+  _handState: {fileID: 0}
   _whatIsDesktop:
     serializedVersion: 2
     m_Bits: 64
@@ -830,7 +832,20 @@ MonoBehaviour:
   _whatIsPlacement:
     serializedVersion: 2
     m_Bits: 128
-  _placementHeight: 0.1
+--- !u!114 &413302170458234950
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4395408384470247304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1e3b4d8bd187b443a267ddff9e11a22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CardAnimator
+  _card: {fileID: 0}
+  _animator: {fileID: 0}
 --- !u!1 &5136763902378885225
 GameObject:
   m_ObjectHideFlags: 0
@@ -840,6 +855,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8256184128599220014}
+  - component: {fileID: 8344602236659795066}
   m_Layer: 0
   m_Name: ModelHolder
   m_TagString: Untagged
@@ -864,6 +880,28 @@ Transform:
   - {fileID: 7978026116458615926}
   m_Father: {fileID: 1982895217852623605}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &8344602236659795066
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5136763902378885225}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 67c5c298958f23946ae3ab1bf6bea7fe, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &5146558136118272228
 GameObject:
   m_ObjectHideFlags: 0

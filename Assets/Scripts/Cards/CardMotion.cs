@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -44,7 +45,7 @@ public class CardMotion : MonoBehaviour
     private void Update()
     {
         if (!_hasHandPose)
-        return;
+            return;
 
         UpdateTarget();
         MoveToTarget();

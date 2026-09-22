@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public enum TurnOrder {playerActive, playerCardAttacks, enemyActive, enemyCardAttacks}
@@ -17,8 +18,11 @@ public class BattleController : MonoBehaviour
     [SerializeField] private TurnOrder _currentPhase;
     [SerializeField] private int _cardsToDrawPerTurn = 1;
 
+    [Header("References")]
+    [SerializeField] private CardsPointController _cardsPointController;
+
     public TurnOrder CurrentPhase => _currentPhase;
-    public event Action<TurnOrder> OnPhaseChanged;
+    public event Action<TurnOrder> OnPhaseChanged; // CardPlacePoint listens
 
 
     private void Start()
@@ -26,12 +30,15 @@ public class BattleController : MonoBehaviour
         _playerDeck.DrawCardsToHand(_openingHandSize);
     }
 
+
     private void AdvanceTurn()
     {
         _currentPhase++;
         
         if((int)_currentPhase >= Enum.GetValues(typeof(TurnOrder)).Length)
             _currentPhase = 0;
+
+        OnPhaseChanged?.Invoke(_currentPhase);
 
         switch (_currentPhase)
         {
@@ -41,7 +48,7 @@ public class BattleController : MonoBehaviour
                 break;
 
             case TurnOrder.playerCardAttacks:
-                AdvanceTurn();
+                StartCoroutine(RunPlayerAttackPhase());
                 break;
 
             case TurnOrder.enemyActive:
@@ -61,11 +68,11 @@ public class BattleController : MonoBehaviour
             return;
 
         AdvanceTurn();
-        OnPhaseChanged?.Invoke(_currentPhase);
     }
 
-    private void StartPlayerTurn()
+    private IEnumerator RunPlayerAttackPhase()
     {
-        //_playerMana.RefillForNewTurn();
+        yield return StartCoroutine(_cardsPointController.RunPlayerAttacks());
+        AdvanceTurn();
     }
 }

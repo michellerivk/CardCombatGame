@@ -19,6 +19,7 @@ public class Card : MonoBehaviour
     public Sprite CardBG => _cardSO.bgSprite;
 
     public event Action OnChanged;
+    public event Action<Card> OnDefeated;
 
     private void Awake()
     {
@@ -32,14 +33,6 @@ public class Card : MonoBehaviour
         _manaCost = _cardSO.manaCost;
     }
 
-    public void SetCurrentHealth(int health)
-    {
-        if (_currentHealth == health) return;
-
-        _currentHealth = health;
-        OnChanged?.Invoke();
-    }
-
     public void Initialize(CardSO definition)
     {
         if (definition == null)
@@ -50,6 +43,26 @@ public class Card : MonoBehaviour
 
         _cardSO = definition;
         SetupCardData();    
+        OnChanged?.Invoke();
+    }
+
+    public void DamageCard(int damage)
+    {
+        SetCurrentHealth(CurrentHealth - damage);
+    }
+    private void SetCurrentHealth(int health)
+    {
+        if (_currentHealth == health) return;
+
+        _currentHealth = health;
+
+        if (_currentHealth <= 0) 
+        {
+            _currentHealth = 0;
+            OnDefeated?.Invoke(this);
+            Destroy(gameObject, 5f);
+        }
+
         OnChanged?.Invoke();
     }
 }

@@ -1,62 +1,29 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class DeckController : MonoBehaviour
 {
-    [SerializeField] private List<CardSO> _deckToUse = new List<CardSO>(); 
+    [SerializeField] private CardDeck _deck;
     [SerializeField] private Card _cardToSpawn;
     [SerializeField] private PlayerBattleContext _playerContext;
-    [SerializeField] private float waitBetweenDrawingCards = 0.25f;
+    [SerializeField, Min(0f)] private float waitBetweenDrawingCards = 0.25f;
 
-    public bool CanDraw => _activeCards.Count > 0 || _deckToUse.Count > 0;
-
-    private List<CardSO> _activeCards = new List<CardSO>(); 
-
-    public List<CardSO> DeckCards => _deckToUse;
-    public List<CardSO> ActiveCards => _activeCards;
-
-    private void Awake()
-    {
-        SetupDeck();
-    }
-
-    private void SetupDeck()
-    {
-        _activeCards.Clear();
-
-        List<CardSO> tempDeck = new List<CardSO>();
-        tempDeck.AddRange(_deckToUse);
-
-        int selected;
-        //int iterations = 0; // Only for creating a deck with duplicates
-
-        // Inserting the possible SOs into a temp deck
-        while(tempDeck.Count > 0) //&& iterations < 500) // Only for creating a deck with duplicates
-        {
-            selected = Random.Range(0, tempDeck.Count);
-            _activeCards.Add(tempDeck[selected]);
-            tempDeck.RemoveAt(selected);
-
-            //iterations ++; // Only for creating a deck with duplicates
-        }
-    }
+    public bool CanDraw => _deck != null && _deck.CanDraw;
 
     private bool TryDrawCardToHand()
     {
-        if (_activeCards.Count == 0)
-            SetupDeck();
+        if (_deck == null || _cardToSpawn == null || _playerContext == null)
+        {
+            Debug.LogError("Drawing to hand needs a CardDeck, card prefab, and PlayerBattleContext.", this);
+            return false;
+        }
 
-        if (_activeCards.Count == 0) // The deck is empty
+        if (!_deck.TryDraw(out CardSO definition))
             return false;
 
         Card newCard = Instantiate(_cardToSpawn, transform.position, transform.rotation);
-        newCard.Initialize(_activeCards[0]);
-
+        newCard.Initialize(definition);
         _playerContext.AddCardToHand(newCard);
-
-        _activeCards.RemoveAt(0);
         return true;
     }
 
@@ -69,7 +36,9 @@ public class DeckController : MonoBehaviour
     {
         for (int i = 0; i < amountToDraw; i++)
         {
-            TryDrawCardToHand();
+            if (!TryDrawCardToHand())
+                yield break;
+
             yield return new WaitForSeconds(waitBetweenDrawingCards);
         }
     }

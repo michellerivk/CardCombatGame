@@ -20,6 +20,7 @@ public class BattleController : MonoBehaviour
 
     [Header("References")]
     [SerializeField] private CardsPointController _cardsPointController;
+    [SerializeField] private EnemyController _enemyController;
 
     public TurnOrder CurrentPhase => _currentPhase;
     public event Action<TurnOrder> OnPhaseChanged; // CardPlacePoint listens
@@ -52,11 +53,11 @@ public class BattleController : MonoBehaviour
                 break;
 
             case TurnOrder.enemyActive:
-                StartCoroutine(RunEnemyAttacksPhase());
+                StartCoroutine(RunEnemyActionPhase());
                 break;
 
             case TurnOrder.enemyCardAttacks:
-                AdvanceTurn();
+                StartCoroutine(RunEnemyAttacksPhase());
                 break;
         }
 
@@ -75,6 +76,18 @@ public class BattleController : MonoBehaviour
         yield return StartCoroutine(_cardsPointController.RunPlayerAttacks());
         AdvanceTurn();
     }
+    private IEnumerator RunEnemyActionPhase()
+    {
+        if (_enemyController == null)
+        {
+            Debug.LogError("BattleController needs an EnemyController.", this);
+            yield break;
+        }
+
+        yield return StartCoroutine(_enemyController.RunTurn());
+        AdvanceTurn();
+    }
+
     private IEnumerator RunEnemyAttacksPhase()
     {
         yield return StartCoroutine(_cardsPointController.RunEnemyAttacks());

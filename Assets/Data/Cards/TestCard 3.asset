@@ -15,8 +15,8 @@ MonoBehaviour:
   cardName: Test Card 3
   actionDescription: This is the third card
   cardLore: Card for testing
-  currentHealth: 1
+  currentHealth: 2
   attackPower: 2
-  manaCost: 3
+  manaCost: 1
   characterSprite: {fileID: 21300000, guid: bb74c38418538b640b20840a23d57902, type: 3}
   bgSprite: {fileID: 21300000, guid: 95bae3e75408f0b4392f33af0bbd2888, type: 3}

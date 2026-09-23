@@ -4,10 +4,12 @@ using UnityEngine;
 public class UIController : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField] private ManaPool _mana;
+    [SerializeField] private ManaPool _playerMana;
+    [SerializeField] private ManaPool _enemyMana;
 
     [Header("Texts References")]
     [SerializeField] private TextMeshProUGUI _playerManaText;
+    [SerializeField] private TextMeshProUGUI _enemyManaText;
     [SerializeField] private TextMeshProUGUI _notEnoughManaText;
 
     [Header("Timer")]
@@ -20,7 +22,8 @@ public class UIController : MonoBehaviour
     private void Start()
     {
         _notEnoughManaText.gameObject.SetActive(false);
-        UpdatePlayerMana(_mana.Current, _mana.Maximum);
+        UpdatePlayerMana(_playerMana.Current, _playerMana.Maximum);
+        UpdateEnemyMana(_enemyMana.Current, _enemyMana.Maximum);
     }
     private void Update()
     {
@@ -37,18 +40,24 @@ public class UIController : MonoBehaviour
 
     private void OnEnable()
     {
-        _mana.OnManaChanged += UpdatePlayerMana;
-        _mana.OnNotEnoughMana += ShowManaWarning;
+        _playerMana.OnManaChanged += UpdatePlayerMana;
+        _enemyMana.OnManaChanged += UpdateEnemyMana;
+        _playerMana.OnNotEnoughMana += ShowManaWarning;
     }
     private void OnDisable()
     {
-        _mana.OnManaChanged -= UpdatePlayerMana;
-        _mana.OnNotEnoughMana -= ShowManaWarning;
+        _playerMana.OnManaChanged -= UpdatePlayerMana;
+        _enemyMana.OnManaChanged -= UpdateEnemyMana;
+        _playerMana.OnNotEnoughMana -= ShowManaWarning;
     }
 
     private void UpdatePlayerMana(int newMana, int maxMana)
     {
         _playerManaText.text = "Mana: " + newMana + " / " + maxMana;
+    }
+    private void UpdateEnemyMana(int newMana, int maxMana)
+    {
+        _enemyManaText.text = "Mana: " + newMana + " / " + maxMana;
     }
     private void ShowManaWarning()
     {

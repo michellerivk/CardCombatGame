@@ -844,7 +844,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1e3b4d8bd187b443a267ddff9e11a22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CardAnimator
-  _card: {fileID: 0}
+  _card: {fileID: 2258118926653809782}
   _animator: {fileID: 0}
 --- !u!1 &5136763902378885225
 GameObject:

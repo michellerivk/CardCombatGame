@@ -5,50 +5,91 @@ using UnityEngine;
 public class EnemyController : MonoBehaviour
 {
     [SerializeField] private CardDeck _deck;
-    [SerializeField] private Transform _cardSpawnPoint;
-    [SerializeField] private Card _cardToSpawn;
-    [SerializeField] private CardPlacePoint[] _placements;
-    [SerializeField, Min(0)] private int _cardsPerTurn = 1;
+    [SerializeField] private EnemyAI _enemyAI;
+    [SerializeField] private EnemyCardPlayer _cardPlayer;
+    [SerializeField] private BoardLayout _board;
+    [SerializeField] private ManaPool _enemyMana;
+    [SerializeField, Min(0)] private int _cardsPerTurn = 5;
     [SerializeField, Min(0f)] private float _timeBetweenPlays = 0.5f;
+
+    [SerializeField, Min(0)] private int _startHandSize;
+    private List<CardSO> _cardsInHand = new List<CardSO>();
+    private CardSO _pendingCard;
+
+    private void Awake()
+    {
+        if (_enemyAI == null)
+            _enemyAI = GetComponent<EnemyAI>();
+        if (_enemyMana == null)
+            _enemyMana = GetComponent<ManaPool>();
+        if (_cardPlayer == null)
+            _cardPlayer = GetComponent<EnemyCardPlayer>();
+    }
+
+    private void Start()
+    {
+        if (_enemyAI == null)
+        {
+            Debug.LogError("EnemyController needs an EnemyAI to choose whether to set up a hand.", this);
+            return;
+        }
+
+        if (_enemyAI.CurrentType != EnemyAI.AIType.placeFromDeck)
+        {
+            SetupHand();
+        }
+    }
 
     // BattleController waits for this routine before starting enemy attacks.
     public IEnumerator RunTurn()
     {
-        if (_deck == null || _cardSpawnPoint == null || _cardToSpawn == null || _placements == null)
+        if (_enemyMana == null || _enemyAI == null || _deck == null || _cardPlayer == null || _board == null)
         {
-            Debug.LogError("EnemyController needs a deck, spawn point, card prefab, and board slots.", this);
+            Debug.LogError("EnemyController is missing required references.", this);
             yield break;
         }
 
-        if (!_cardToSpawn.TryGetComponent(out CardMotion prefabMotion) || !prefabMotion.enabled)
-        {
-            Debug.LogError("The enemy card prefab needs an enabled CardMotion.", this);
+        if (!_board.ValidateSetup() || !_cardPlayer.ValidateSetup())
             yield break;
-        }
 
         for (int i = 0; i < _cardsPerTurn; i++)
         {
             yield return new WaitForSeconds(_timeBetweenPlays);
 
-            CardPlacePoint point = ChooseEmptyPoint();
+            CardPlacePoint point = _enemyAI.ChoosePlacement(_board);
             // Don't consume a card when there is nowhere to play it.
-            if (point == null || !_deck.TryDraw(out CardSO definition))
+            if (point == null)
                 yield break;
 
-            Card card = Instantiate(_cardToSpawn, _cardSpawnPoint.position, _cardToSpawn.transform.rotation);
-            card.Initialize(definition);
-            DisablePlayerInteraction(card);
-
-            if (!point.TryAssign(card))
+            bool fromDeck = _enemyAI.CurrentType == EnemyAI.AIType.placeFromDeck;
+            CardSO definition;
+            if (fromDeck)
             {
-                Destroy(card.gameObject);
-                yield break;
+                if (_pendingCard == null && !_deck.TryDraw(out _pendingCard))
+                    yield break;
+
+                definition = _enemyAI.ChoosePlayableCard(
+                    new[] { _pendingCard }, _enemyMana.Current);
+            }
+            else
+            {
+                definition = _enemyAI.ChoosePlayableCard(_cardsInHand, _enemyMana.Current);
             }
 
-            CardMotion motion = card.GetComponent<CardMotion>();
+            if (definition == null)
+                yield break;
+
             bool arrived = false;
-            // Keep the enemy prefab's facing direction.
-            motion.MoveTo(point.transform.position, card.transform.rotation, () => arrived = true);
+            if (!_cardPlayer.TryPlay(definition, point, _enemyMana, out Card card, () => arrived = true))
+                yield break;
+
+            // Hand/deck ownership stays here; failed plays leave the source untouched.
+            if (fromDeck)
+                _pendingCard = null;
+            else
+                _cardsInHand.Remove(definition);
+
+            CardMotion motion = card.GetComponent<CardMotion>();
 
             // A defeated card may get a new discard movement before it arrives.
             while (!arrived && card != null && !card.IsDefeated &&
@@ -59,30 +100,41 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    private CardPlacePoint ChooseEmptyPoint()
+    // Setting up the enemy hand
+    private void SetupHand()
     {
-        var emptyPoints = new List<CardPlacePoint>();
-        foreach (CardPlacePoint point in _placements)
-        {
-            if (point != null && !point.IsPlayerPoint && point.ActiveCard == null)
-                emptyPoints.Add(point);
-        }
-
-        return emptyPoints.Count == 0 ? null : emptyPoints[Random.Range(0, emptyPoints.Count)];
+        _cardsInHand.Clear();
+        DrawCardsToHand(_startHandSize);
     }
 
-    private static void DisablePlayerInteraction(Card card)
+    // BattleController supplies the same draw count used for the player's turn.
+    public void DrawCardsToHand(int count)
     {
-        if (card.TryGetComponent(out CardSelectionController selection))
+        if (count <= 0)
+            return;
+
+        if (_enemyAI == null)
         {
-            selection.UnSelectCard();
-            selection.enabled = false;
+            Debug.LogError("Drawing enemy cards needs an EnemyAI.", this);
+            return;
         }
-        if (card.TryGetComponent(out CardPointerInput input))
-            input.enabled = false;
-        if (card.TryGetComponent(out CardPlacementController placement))
-            placement.enabled = false;
-        if (card.TryGetComponent(out CardHandState handState))
-            handState.RemoveFromHand();
+
+        // This mode plays directly from the deck and deliberately has no hand.
+        if (_enemyAI.CurrentType == EnemyAI.AIType.placeFromDeck)
+            return;
+
+        if (_deck == null)
+        {
+            Debug.LogError("Drawing enemy cards needs a CardDeck.", this);
+            return;
+        }
+
+        for (int i = 0; i < count; i++)
+        {
+            if (!_deck.TryDraw(out CardSO definition))
+                break;
+
+            _cardsInHand.Add(definition);
+        }
     }
 }

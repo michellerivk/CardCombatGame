@@ -129,10 +129,12 @@ GameObject:
   m_Component:
   - component: {fileID: 4619754}
   - component: {fileID: 4619755}
+  - component: {fileID: 4619760}
   - component: {fileID: 4619756}
   - component: {fileID: 4619757}
   - component: {fileID: 4619758}
   - component: {fileID: 4619759}
+  - component: {fileID: 4619761}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -198,16 +200,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyController
   _deck: {fileID: 4619758}
-  _cardSpawnPoint: {fileID: 1778651776}
-  _cardToSpawn: {fileID: 3674736390248730037, guid: 6d2969f1758d82746800a219d6987023, type: 3}
-  _placements:
-  - {fileID: 1983431521}
-  - {fileID: 1155028020}
-  - {fileID: 1455071976}
-  - {fileID: 2103689732}
-  - {fileID: 2062714079}
-  _cardsPerTurn: 1
+  _enemyAI: {fileID: 0}
+  _cardPlayer: {fileID: 4619761}
+  _board: {fileID: 455622251}
+  _cardsPerTurn: 5
   _timeBetweenPlays: 0.5
+  _startHandSize: 5
 --- !u!114 &4619758
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -236,7 +234,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb11aae516396ce4a817320c85c138f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAI
-  _enemyAIType: 0
+  _enemyAIType: 1
+--- !u!114 &4619760
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4619753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df22f261590e3bc43a43e4f6fd6ac54b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ManaPool
+  _startingMana: 4
+  _maximumMana: 12
+--- !u!114 &4619761
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4619753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df79622ab2f848bc85cc9a7e6a6b9031, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyCardPlayer
+  _cardSpawnPoint: {fileID: 1778651776}
+  _cardToSpawn: {fileID: 3674736390248730037, guid: 6d2969f1758d82746800a219d6987023, type: 3}
 --- !u!1 &14514591
 GameObject:
   m_ObjectHideFlags: 0
@@ -464,6 +490,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2135062487}
+  - {fileID: 1060214189}
   - {fileID: 1636774215}
   - {fileID: 1286899141}
   - {fileID: 555703974}
@@ -488,8 +515,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b38fa680d216cc4cb4b0a8f084a40e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIController
-  _mana: {fileID: 365386495}
+  _playerMana: {fileID: 240647342}
+  _enemyMana: {fileID: 4619760}
   _playerManaText: {fileID: 2135062488}
+  _enemyManaText: {fileID: 1060214190}
   _notEnoughManaText: {fileID: 1901704377}
   _manaWarningTime: 1
 --- !u!1 &203844586
@@ -709,6 +738,7 @@ GameObject:
   - component: {fileID: 240647339}
   - component: {fileID: 240647340}
   - component: {fileID: 240647341}
+  - component: {fileID: 240647342}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -730,7 +760,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 721038402}
-  - {fileID: 365386496}
   - {fileID: 1180579509}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -762,6 +791,20 @@ MonoBehaviour:
   _health: {fileID: 240647340}
   _healthText: {fileID: 1286899142}
   _label: PLAYER HEALTH
+--- !u!114 &240647342
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 240647338}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df22f261590e3bc43a43e4f6fd6ac54b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ManaPool
+  _startingMana: 4
+  _maximumMana: 12
 --- !u!1 &243685318
 GameObject:
   m_ObjectHideFlags: 0
@@ -912,52 +955,6 @@ RectTransform:
   m_AnchoredPosition: {x: 910, y: -188.37502}
   m_SizeDelta: {x: 254.19806, y: 701.41895}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &365386494
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 365386496}
-  - component: {fileID: 365386495}
-  m_Layer: 0
-  m_Name: PlayerManaPool
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &365386495
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 365386494}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df22f261590e3bc43a43e4f6fd6ac54b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ManaPool
-  _startingMana: 4
-  _maximumMana: 12
---- !u!4 &365386496
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 365386494}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 240647339}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &426018542
 GameObject:
   m_ObjectHideFlags: 0
@@ -1051,6 +1048,7 @@ GameObject:
   - component: {fileID: 455622248}
   - component: {fileID: 455622249}
   - component: {fileID: 455622250}
+  - component: {fileID: 455622251}
   m_Layer: 0
   m_Name: CardsPointController
   m_TagString: Untagged
@@ -1087,6 +1085,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 483312ec3cd540f4fa2cca80aec7c397, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CardsPointController
+  _board: {fileID: 455622251}
+  _playerHealth: {fileID: 240647340}
+  _enemyHealth: {fileID: 4619755}
+  _timeBetweenAttacks: 0.25
+--- !u!114 &455622251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 455622247}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9c9f9c860994f03a8b78cfc697f08f2, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::BoardLayout
   _playerPlacements:
   - {fileID: 1907191870}
   - {fileID: 1711489192}
@@ -1099,9 +1113,6 @@ MonoBehaviour:
   - {fileID: 1455071976}
   - {fileID: 2103689732}
   - {fileID: 2062714079}
-  _playerHealth: {fileID: 240647340}
-  _enemyHealth: {fileID: 4619755}
-  _timeBetweenAttacks: 0.25
 --- !u!114 &455622250
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1192,8 +1203,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2363edb238ec7e2439fd4b83cff81cc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BattleController
-  _playerMana: {fileID: 365386495}
-  _enemyMana: {fileID: 0}
+  _playerMana: {fileID: 240647342}
+  _enemyMana: {fileID: 4619760}
   _playerDeck: {fileID: 1180579510}
   _openingHandSize: 5
   _currentPhase: 0
@@ -1227,7 +1238,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c78e79e27d51bc141ab5ff5aefa54d20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerBattleContext
-  _mana: {fileID: 365386495}
+  _mana: {fileID: 240647342}
   _hand: {fileID: 721038401}
 --- !u!1 &555703973
 GameObject:
@@ -2077,6 +2088,143 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1029490612}
+  m_CullTransparentMesh: 1
+--- !u!1 &1060214188
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1060214189}
+  - component: {fileID: 1060214191}
+  - component: {fileID: 1060214190}
+  m_Layer: 5
+  m_Name: EnemyManaText
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1060214189
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1060214188}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 184441933}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -50, y: -113.75}
+  m_SizeDelta: {x: 200, y: 50}
+  m_Pivot: {x: 1, y: 1}
+--- !u!114 &1060214190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1060214188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: 'Mana: X'
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: ddb0c95e1e2143b47b562d43bc88ae24, type: 2}
+  m_sharedMaterial: {fileID: 1184153602935217428, guid: ddb0c95e1e2143b47b562d43bc88ae24, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 38
+  m_fontSizeBase: 36
+  m_fontWeight: 400
+  m_enableAutoSizing: 1
+  m_fontSizeMin: 18
+  m_fontSizeMax: 38
+  m_fontStyle: 17
+  m_HorizontalAlignment: 4
+  m_VerticalAlignment: 256
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_characterHorizontalScale: 1
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_TextWrappingMode: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 0
+  m_ActiveFontFeatures: 6e72656bu
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_EmojiFallbackSupport: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &1060214191
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1060214188}
   m_CullTransparentMesh: 1
 --- !u!114 &1155028020 stripped
 MonoBehaviour:
@@ -3618,7 +3766,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonController
   _paidDraw: {fileID: 2143721118}
-  _manaPool: {fileID: 365386495}
+  _manaPool: {fileID: 240647342}
   _battleController: {fileID: 466963357}
   _buttonVisual: {fileID: 2143721117}
 --- !u!225 &2143721117
@@ -3647,7 +3795,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PaidCardDraw
   _deck: {fileID: 1180579510}
   _battleController: {fileID: 466963357}
-  _mana: {fileID: 365386495}
+  _mana: {fileID: 240647342}
   _cost: 2
 --- !u!1001 &151164806634394068
 PrefabInstance:

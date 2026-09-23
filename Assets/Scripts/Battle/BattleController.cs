@@ -16,7 +16,8 @@ public class BattleController : MonoBehaviour
 
     [Header("Turns")]
     [SerializeField] private TurnOrder _currentPhase;
-    [SerializeField] private int _cardsToDrawPerTurn = 1;
+    // Shared by the player and enemy at the start of their respective turns.
+    [SerializeField, Min(0)] private int _cardsToDrawPerTurn = 1;
 
     [Header("References")]
     [SerializeField] private CardsPointController _cardsPointController;
@@ -44,7 +45,7 @@ public class BattleController : MonoBehaviour
         switch (_currentPhase)
         {
             case TurnOrder.playerActive:
-                _playerMana.UpdatePlayerMana();
+                _playerMana.UpdateMana();
                 _playerDeck.DrawCardsToHand(_cardsToDrawPerTurn);
                 break;
 
@@ -53,6 +54,7 @@ public class BattleController : MonoBehaviour
                 break;
 
             case TurnOrder.enemyActive:
+                _enemyMana.UpdateMana();
                 StartCoroutine(RunEnemyActionPhase());
                 break;
 
@@ -84,6 +86,7 @@ public class BattleController : MonoBehaviour
             yield break;
         }
 
+        _enemyController.DrawCardsToHand(_cardsToDrawPerTurn);
         yield return StartCoroutine(_enemyController.RunTurn());
         AdvanceTurn();
     }
@@ -92,5 +95,10 @@ public class BattleController : MonoBehaviour
     {
         yield return StartCoroutine(_cardsPointController.RunEnemyAttacks());
         AdvanceTurn();
+    }
+
+    private void EndBattle()
+    {
+        
     }
 }

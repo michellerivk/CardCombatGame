@@ -1,12 +1,11 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class CardsPointController : MonoBehaviour
 {
-    [SerializeField] private CardPlacePoint[] _playerPlacements;
-    [SerializeField] private CardPlacePoint[] _enemyPlacements;
+    [SerializeField] private BoardLayout _board;
     [SerializeField] private HealthPool _playerHealth;
     [SerializeField] private HealthPool _enemyHealth;
     [SerializeField, Min(0f)] private float _timeBetweenAttacks = 0.25f;
@@ -15,19 +14,31 @@ public class CardsPointController : MonoBehaviour
 
     public IEnumerator RunPlayerAttacks()
     {
-        return RunAttacks(_playerPlacements, _enemyPlacements, _enemyHealth);
+        if (!ValidateBoard()) yield break;
+        yield return RunAttacks(_board.PlayerPoints, _board.EnemyPoints, _enemyHealth);
     }
 
     public IEnumerator RunEnemyAttacks()
     {
-        return RunAttacks(_enemyPlacements, _playerPlacements, _playerHealth);
+        if (!ValidateBoard()) yield break;
+        yield return RunAttacks(_board.EnemyPoints, _board.PlayerPoints, _playerHealth);
+    }
+
+    private bool ValidateBoard()
+    {
+        if (_board != null)
+            return _board.ValidateSetup();
+
+        Debug.LogError("CardsPointController needs a BoardLayout.", this);
+        return false;
     }
 
     private IEnumerator RunAttacks(
-        CardPlacePoint[] attackingPoints, CardPlacePoint[] defendingPoints, HealthPool opposingHealth)
+        IReadOnlyList<CardPlacePoint> attackingPoints, IReadOnlyList<CardPlacePoint> defendingPoints,
+        HealthPool opposingHealth)
     {
         if (attackingPoints == null || defendingPoints == null ||
-            attackingPoints.Length != defendingPoints.Length || opposingHealth == null)
+            attackingPoints.Count != defendingPoints.Count || opposingHealth == null)
         {
             Debug.LogError("Attacks need matching board slot arrays and the opposing HealthPool.", this);
             yield break;
@@ -35,7 +46,7 @@ public class CardsPointController : MonoBehaviour
 
         yield return new WaitForSeconds(_timeBetweenAttacks);
 
-        for (int i = 0; i < attackingPoints.Length; i++)
+        for (int i = 0; i < attackingPoints.Count; i++)
         {
             if (attackingPoints[i] == null || defendingPoints[i] == null)
             {

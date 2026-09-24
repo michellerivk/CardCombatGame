@@ -24,5 +24,5 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 60891215c02ad8b4e87b5e9275ee48b5, type: 3}
   - {fileID: 8300000, guid: 77fbc8ef20ae6064b8042734d39149cb, type: 3}
   _outputMixerGroup: {fileID: -4787883494158240066, guid: 1d9087d5591c672438810c0fbb1e440b, type: 2}
-  _volumeRange: {x: 1, y: 1}
+  _volumeRange: {x: 0.7, y: 0.7}
   _pitchRange: {x: 1, y: 1}

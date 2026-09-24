@@ -15,5 +15,5 @@ MonoBehaviour:
   _clips:
   - {fileID: 8300000, guid: 9929e5aefb1dfb0468804825cef0f946, type: 3}
   _outputMixerGroup: {fileID: -6184700442531434609, guid: 1d9087d5591c672438810c0fbb1e440b, type: 2}
-  _volumeRange: {x: 1, y: 1}
+  _volumeRange: {x: 0.7, y: 0.7}
   _pitchRange: {x: 1, y: 1}

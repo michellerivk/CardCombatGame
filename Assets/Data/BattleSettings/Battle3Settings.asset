@@ -18,7 +18,7 @@ MonoBehaviour:
   _enemyAIType: 3
   _enemyDeck:
   - {fileID: 11400000, guid: 59b8781bf8ed39b44a296d342be7e71f, type: 2}
-  _enemyStartingHealth: 2
+  _enemyStartingHealth: 30
   _enemyStartingMana: 4
   _enemyOpeningHandSize: 5
   _enemyCardsPlayedPerTurn: 5

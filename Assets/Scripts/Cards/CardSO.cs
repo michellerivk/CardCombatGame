@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Card", menuName = "Card", order = 1)]
@@ -11,4 +12,5 @@ public class CardSO : ScriptableObject
     public int currentHealth, attackPower, manaCost;
 
     public Sprite characterSprite, bgSprite;
+    public List<AbilitySO> abilities = new List<AbilitySO>();
 }

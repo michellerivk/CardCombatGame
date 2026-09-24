@@ -20,16 +20,16 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 59b8781bf8ed39b44a296d342be7e71f, type: 2}
   - {fileID: 11400000, guid: c8624f5197736814a983e40ec5c3b17d, type: 2}
   - {fileID: 11400000, guid: 9be3b87e04739054a9e236b8b18fc8c3, type: 2}
-  _enemyStartingHealth: 2
-  _enemyStartingMana: 4
+  _enemyStartingHealth: 50
+  _enemyStartingMana: 5
   _enemyOpeningHandSize: 5
   _enemyCardsPlayedPerTurn: 5
   _playerDeck:
   - {fileID: 11400000, guid: 59b8781bf8ed39b44a296d342be7e71f, type: 2}
   - {fileID: 11400000, guid: c8624f5197736814a983e40ec5c3b17d, type: 2}
   - {fileID: 11400000, guid: 9be3b87e04739054a9e236b8b18fc8c3, type: 2}
-  _playerStartingHealth: 10
-  _playerStartingMana: 4
+  _playerStartingHealth: 50
+  _playerStartingMana: 5
   _openingHandSize: 5
   _cardsDrawnPerTurn: 1
   _maximumMana: 12

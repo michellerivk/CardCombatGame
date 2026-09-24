@@ -19,7 +19,7 @@ MonoBehaviour:
   _enemyDeck:
   - {fileID: 11400000, guid: 59b8781bf8ed39b44a296d342be7e71f, type: 2}
   - {fileID: 11400000, guid: c8624f5197736814a983e40ec5c3b17d, type: 2}
-  _enemyStartingHealth: 2
+  _enemyStartingHealth: 40
   _enemyStartingMana: 8
   _enemyOpeningHandSize: 5
   _enemyCardsPlayedPerTurn: 5
@@ -27,7 +27,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 59b8781bf8ed39b44a296d342be7e71f, type: 2}
   - {fileID: 11400000, guid: c8624f5197736814a983e40ec5c3b17d, type: 2}
   - {fileID: 11400000, guid: 9be3b87e04739054a9e236b8b18fc8c3, type: 2}
-  _playerStartingHealth: 20
+  _playerStartingHealth: 40
   _playerStartingMana: 4
   _openingHandSize: 5
   _cardsDrawnPerTurn: 1

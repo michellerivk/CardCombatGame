@@ -10,13 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 14d66fdf24d25c14f89a6c31294d1631, type: 3}
-  m_Name: TestCard 3
+  m_Name: BudCard
   m_EditorClassIdentifier: Assembly-CSharp::CardSO
-  cardName: Test Card 3
-  actionDescription: This is the third card
-  cardLore: Card for testing
-  currentHealth: 2
-  attackPower: 2
-  manaCost: 1
-  characterSprite: {fileID: 21300000, guid: bb74c38418538b640b20840a23d57902, type: 3}
+  cardName: Shielded Bud
+  actionDescription: Won't take damage on the first hit
+  cardLore: Uses it's shield for protection
+  currentHealth: 3
+  attackPower: 6
+  manaCost: 8
+  characterSprite: {fileID: 21300000, guid: 566e25bcf693f7443b81dc7fe1e83a11, type: 3}
   bgSprite: {fileID: 21300000, guid: 95bae3e75408f0b4392f33af0bbd2888, type: 3}
+  abilities:
+  - {fileID: 11400000, guid: 943e73dff0dff054c8c9176818ef40bb, type: 2}

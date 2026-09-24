@@ -57,13 +57,8 @@ public class CardsPointController : MonoBehaviour
             Card attacker = attackingPoints[i].ActiveCard;
             if (attacker == null || attacker.IsDefeated) continue;
 
-            attacker.NotifyAttack();
-
             Card defender = defendingPoints[i].ActiveCard;
-            if (defender != null)
-                defender.DamageCard(attacker.AttackPower);
-            else
-                opposingHealth.TakeDamage(attacker.AttackPower);
+            CombatResolver.ResolveAttack(attacker, defender, opposingHealth);
 
             yield return new WaitForSeconds(_timeBetweenAttacks);
         }

@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28972b9d0e6a3b946939d831d9eb8a67, type: 3}
+  m_Name: Battle2Settings
+  m_EditorClassIdentifier: Assembly-CSharp::BattleSettingsSO
+  _battleName: First Battle
+  _deskMaterial: {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  _background: {fileID: 0}
+  _enemyAIType: 1
+  _enemyDeck:
+  - {fileID: 11400000, guid: 59b8781bf8ed39b44a296d342be7e71f, type: 2}
+  - {fileID: 11400000, guid: c8624f5197736814a983e40ec5c3b17d, type: 2}
+  _enemyStartingHealth: 10
+  _enemyStartingMana: 8
+  _enemyOpeningHandSize: 5
+  _enemyCardsPlayedPerTurn: 5
+  _playerDeck:
+  - {fileID: 11400000, guid: 59b8781bf8ed39b44a296d342be7e71f, type: 2}
+  - {fileID: 11400000, guid: c8624f5197736814a983e40ec5c3b17d, type: 2}
+  - {fileID: 11400000, guid: 9be3b87e04739054a9e236b8b18fc8c3, type: 2}
+  _playerStartingHealth: 30
+  _playerStartingMana: 4
+  _openingHandSize: 5
+  _cardsDrawnPerTurn: 1
+  _maximumMana: 12

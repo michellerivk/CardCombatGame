@@ -40,6 +40,12 @@ public class EnemyController : MonoBehaviour
         }
     }
 
+    public void Initialize(int cardsPerTurn, int startingHandSize)
+    {
+        _cardsPerTurn = Mathf.Max(0, cardsPerTurn);
+        _startHandSize = Mathf.Max(0, startingHandSize);
+    }
+
     // BattleController waits for this routine before starting enemy attacks.
     public IEnumerator RunTurn()
     {

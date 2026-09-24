@@ -45,6 +45,15 @@ public class BattleController : MonoBehaviour
         _playerDeck.DrawCardsToHand(_openingHandSize);
     }
 
+    public void Initialize(int openingHandSize, int cardsToDrawPerTurn)
+    {
+        _openingHandSize = Mathf.Max(0, openingHandSize);
+        _cardsToDrawPerTurn = Mathf.Max(0, cardsToDrawPerTurn);
+        _currentPhase = TurnOrder.playerActive;
+        IsBattleOver = false;
+        Result = null;
+    }
+
     void OnEnable()
     {
         _playerHealth.OnDied += HandlePlayerDied;

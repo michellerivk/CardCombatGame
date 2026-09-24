@@ -1469,6 +1469,8 @@ GameObject:
   - component: {fileID: 466963358}
   - component: {fileID: 466963357}
   - component: {fileID: 466963359}
+  - component: {fileID: 466963360}
+  - component: {fileID: 466963361}
   m_Layer: 0
   m_Name: BattleController
   m_TagString: Untagged
@@ -1530,6 +1532,43 @@ MonoBehaviour:
   _mana: {fileID: 240647342}
   _hand: {fileID: 721038401}
   _battle: {fileID: 466963357}
+--- !u!114 &466963360
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 466963356}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f8d57a7193d4b108bee2500f19d5ea1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BattleBootstrapper
+  _defaultSettings: {fileID: 11400000, guid: 3d4e139f117a47f69a2b8e37f6b0ff10, type: 2}
+  _battleController: {fileID: 466963357}
+  _playerHealth: {fileID: 240647340}
+  _enemyHealth: {fileID: 4619755}
+  _playerMana: {fileID: 240647342}
+  _enemyMana: {fileID: 4619760}
+  _playerDeck: {fileID: 1180579511}
+  _enemyDeck: {fileID: 4619758}
+  _enemyAI: {fileID: 4619759}
+  _enemyController: {fileID: 4619757}
+  _themeView: {fileID: 466963361}
+--- !u!114 &466963361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 466963356}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ac4a1a6506d4c37a5f8bf9b095e1bb3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BattleThemeView
+  _deskRenderer: {fileID: 243685320}
+  _backgroundImage: {fileID: 0}
 --- !u!1 &555703973
 GameObject:
   m_ObjectHideFlags: 0

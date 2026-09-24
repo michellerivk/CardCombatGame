@@ -11,6 +11,12 @@ public class HealthPool : MonoBehaviour
     public event Action<int> OnHealthChanged, OnDamaged;
     public event Action OnDied;
 
+    public void Initialize(int startingHealth)
+    {
+        _currentHealth = Mathf.Max(1, startingHealth);
+        OnHealthChanged?.Invoke(_currentHealth);
+    }
+
     public void TakeDamage(int damage)
     {
         if (IsDead || damage <= 0) return;

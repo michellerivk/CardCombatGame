@@ -2,7 +2,7 @@ using System;
 using TMPro;
 using UnityEngine;
 
-public class ButtonController : MonoBehaviour
+public class DrawCardButtonView : MonoBehaviour
 {
     [SerializeField] private PaidCardDraw _paidDraw;
     [SerializeField] private ManaPool _manaPool;

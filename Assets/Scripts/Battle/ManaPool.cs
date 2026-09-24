@@ -16,8 +16,16 @@ public class ManaPool : MonoBehaviour
 
     private void Awake()
     {
+        Initialize(_startingMana, _maximumMana);
+    }
+
+    public void Initialize(int startingMana, int maximumMana)
+    {
+        _maximumMana = Mathf.Max(0, maximumMana);
+        _startingMana = Mathf.Clamp(startingMana, 0, _maximumMana);
         _currentMaxMana = _startingMana;
         Current = _currentMaxMana;
+        OnManaChanged?.Invoke(Current, Maximum);
     }
     public bool CanAfford(int cost)
     {

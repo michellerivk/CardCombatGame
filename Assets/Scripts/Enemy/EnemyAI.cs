@@ -15,6 +15,12 @@ public class EnemyAI : MonoBehaviour
     private readonly IEnemyPlacementStrategy _defensivePlacement = new DefensiveEnemyPlacementStrategy();
     private readonly IEnemyPlacementStrategy _attackingPlacement = new AttackingEnemyPlacementStrategy();
 
+    public void Initialize(AIType enemyAIType)
+    {
+        _enemyAIType = enemyAIType;
+        OnAIChanged?.Invoke(_enemyAIType);
+    }
+
     // Choose without spending mana or removing cards from the supplied collection.
     // Hand mode supplies its hand; deck mode supplies its pending drawn card.
     public CardSO ChoosePlayableCard(IReadOnlyList<CardSO> candidates, int availableMana)

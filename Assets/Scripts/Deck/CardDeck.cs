@@ -15,6 +15,23 @@ public class CardDeck : MonoBehaviour
         EnsureInitialized();
     }
 
+    public void Initialize(IReadOnlyList<CardSO> definitions)
+    {
+        _deckToUse.Clear();
+
+        if (definitions != null)
+        {
+            foreach (CardSO card in definitions)
+            {
+                if (card != null)
+                    _deckToUse.Add(card);
+            }
+        }
+
+        _initialized = true;
+        RefillAndShuffle();
+    }
+
     // Also initialize on demand, so callers don't depend on Awake order.
     private void EnsureInitialized()
     {

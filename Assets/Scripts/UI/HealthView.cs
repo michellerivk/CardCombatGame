@@ -1,5 +1,4 @@
 using TMPro;
-using UnityEditor.Rendering.BuiltIn.ShaderGraph;
 using UnityEngine;
 
 public class HealthView : MonoBehaviour
@@ -8,7 +7,7 @@ public class HealthView : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _healthText;
     [SerializeField] private string _label = "HEALTH";
 
-    private void Awake()
+    private void Start()
     {
         UpdateHealth(_health.CurrentHealth);
     }

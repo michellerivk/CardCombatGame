@@ -107,15 +107,21 @@ public class CardPlacementController : MonoBehaviour
         CardPlacePoint selectedPoint =
             hit.collider.GetComponentInParent<CardPlacePoint>();
 
-        if (selectedPoint == null || !selectedPoint.IsPlayerPoint)
+        if (selectedPoint == null || !selectedPoint.IsPlayerPoint ||
+            selectedPoint.ActiveCard != null)
         {
             ReturnToHand();
             return;
         }
 
         // Recheck every rule immediately before the only operation that reserves a slot.
-        if (!CanPlayerInteract() || !_mana.CanAfford(_card.ManaCost) ||
-            !selectedPoint.TryAssign(_card))
+        if (!CanPlayerInteract() || !_mana.CheckCanAfford(_card.ManaCost))
+        {
+            ReturnToHand();
+            return;
+        }
+
+        if (!selectedPoint.TryAssign(_card))
         {
             ReturnToHand();
             return;

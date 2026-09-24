@@ -24,13 +24,20 @@ public class ManaPool : MonoBehaviour
         return cost >= 0 && Current >= cost;
     }
 
+    // Use this when an attempted action should also show player feedback.
+    public bool CheckCanAfford(int cost)
+    {
+        if (CanAfford(cost))
+            return true;
+
+        OnNotEnoughMana?.Invoke();
+        return false;
+    }
+
     public bool TrySpend(int cost)
     {
-        if (!CanAfford(cost))
-        {
-            OnNotEnoughMana?.Invoke();
+        if (!CheckCanAfford(cost))
             return false;
-        }
 
         Current -= cost;
         OnManaChanged?.Invoke(Current, Maximum);

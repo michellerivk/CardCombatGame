@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -36,7 +37,7 @@ public class CardDiscardController : MonoBehaviour
         DiscardCard(card);
     }
 
-    public void DiscardAllCards(IReadOnlyList<Card> cardsFromHand)
+    public IEnumerator DiscardAllCardsAndWait(IReadOnlyList<Card> cardsFromHand)
     {
         HashSet<Card> cardsToDiscard = new HashSet<Card>();
 
@@ -64,6 +65,13 @@ public class CardDiscardController : MonoBehaviour
 
         foreach (Card card in cardsToDiscard)
             DiscardCard(card);
+
+        while (_cardsBeingDiscarded.Count > 0)
+        {
+            // Protect against a card being destroyed by another system while moving.
+            _cardsBeingDiscarded.RemoveWhere(card => card == null);
+            yield return null;
+        }
     }
 
     private void DiscardCard(Card card)
@@ -85,6 +93,7 @@ public class CardDiscardController : MonoBehaviour
             !motion.isActiveAndEnabled)
         {
             Debug.LogError("Discarding a card needs a Discard Point and an enabled CardMotion.", this);
+            _cardsBeingDiscarded.Remove(card);
             Destroy(card.gameObject);
             return;
         }
@@ -94,6 +103,8 @@ public class CardDiscardController : MonoBehaviour
 
         motion.MoveTo(_discardPoint.position, _discardPoint.rotation, () =>
         {
+            _cardsBeingDiscarded.Remove(card);
+
             if (card != null)
                 Destroy(card.gameObject);
         });

@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public enum TurnOrder {playerActive, playerCardAttacks, enemyActive, enemyCardAttacks}
@@ -141,15 +142,19 @@ public class BattleController : MonoBehaviour
 
         // Set the state before notifying anyone.
         IsBattleOver = true;
-        Result = result;
-
         StopAllCoroutines();
 
         // Stop systems that own coroutines or card collections of their own.
         _playerDeck.CancelPendingDraws();
         var cardsFromHand = _playerHand.EmptyHand();
-        _discardController.DiscardAllCards(cardsFromHand);
+        StartCoroutine(FinishBattle(result, cardsFromHand));
+    }
 
+    private IEnumerator FinishBattle(BattleResult result, IReadOnlyList<Card> cardsFromHand)
+    {
+        yield return _discardController.DiscardAllCardsAndWait(cardsFromHand);
+
+        Result = result;
         OnBattleEnded?.Invoke(result);
     }
 }

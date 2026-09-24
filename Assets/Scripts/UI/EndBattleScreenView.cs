@@ -4,13 +4,14 @@ using UnityEngine;
 public class EndBattleScreenView : MonoBehaviour
 {
     [SerializeField] private CanvasGroup _screenVisual;
+    [SerializeField] private Animator _anim;
     [SerializeField] private TextMeshProUGUI _resultText;
     [SerializeField] private BattleController _battleController;
 
     void Awake()
     {
         // This GameObject must stay active so it remains subscribed to the battle event.
-        SetVisible(false);
+        //SetVisible(false);
     }
 
     void OnEnable()
@@ -33,15 +34,17 @@ public class EndBattleScreenView : MonoBehaviour
 
         _resultText.text = "You " + newText + "!";
 
-        SetVisible(true);
+        _anim.SetTrigger("Appear");
+
+        //SetVisible(true);
     }
 
-    private void SetVisible(bool visible)
-    {
-        _screenVisual.alpha = visible ? 1f : 0f;
-        _screenVisual.interactable = visible;
-        _screenVisual.blocksRaycasts = visible;
-    }
+    // private void SetVisible(bool visible)
+    // {
+    //     _screenVisual.alpha = visible ? 1f : 0f;
+    //     _screenVisual.interactable = visible;
+    //     _screenVisual.blocksRaycasts = visible;
+    // }
 
     public void MainMenuButton()
     {

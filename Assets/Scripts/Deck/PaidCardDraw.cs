@@ -7,14 +7,18 @@ public class PaidCardDraw : MonoBehaviour
     [SerializeField] private ManaPool _mana;
     [SerializeField] private int _cost = 2;
 
-    public bool CanDraw => _battleController.CurrentPhase == TurnOrder.playerActive && 
-                           _deck.CanDraw && _mana.CanAfford(_cost);
+    public bool CanDraw => !_battleController.IsBattleOver &&
+                           _battleController.CurrentPhase == TurnOrder.playerActive &&
+                           _deck.CanDraw &&
+                           _mana.CanAfford(_cost);
 
     public void TryDraw()
     {
-        if (!_deck.CanDraw || !_mana.TrySpend(_cost) || _battleController.CurrentPhase != TurnOrder.playerActive)
+        // Validate every rule before spending mana or starting a draw.
+        if (!CanDraw)
             return;
 
-        _deck.DrawCardsToHand(1);
+        if (_mana.TrySpend(_cost))
+            _deck.DrawCardsToHand(1);
     }
 }

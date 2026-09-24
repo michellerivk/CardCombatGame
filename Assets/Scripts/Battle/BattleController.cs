@@ -3,12 +3,16 @@ using System.Collections;
 using UnityEngine;
 
 public enum TurnOrder {playerActive, playerCardAttacks, enemyActive, enemyCardAttacks}
-
+public enum BattleResult { Victory, Defeat }
 public class BattleController : MonoBehaviour
 {
     [Header("Mana")]
     [SerializeField] private ManaPool _playerMana;
     [SerializeField] private ManaPool _enemyMana;
+
+    [Header("Health")]
+    [SerializeField] private HealthPool _playerHealth;
+    [SerializeField] private HealthPool _enemyHealth;
 
     [Header("Starting Deck")]
     [SerializeField] private DeckController _playerDeck;
@@ -22,9 +26,17 @@ public class BattleController : MonoBehaviour
     [Header("References")]
     [SerializeField] private CardsPointController _cardsPointController;
     [SerializeField] private EnemyController _enemyController;
+    [SerializeField] private HandController _playerHand;
+    [SerializeField] private CardDiscardController _discardController;
 
+    public bool IsBattleOver { get; private set; }
+
+    // This variable can hold a BattleResult value or null
+    public BattleResult? Result { get; private set; }
     public TurnOrder CurrentPhase => _currentPhase;
     public event Action<TurnOrder> OnPhaseChanged; // CardPlacePoint listens
+    public event Action<BattleResult> OnBattleEnded;
+
 
 
     private void Start()
@@ -32,9 +44,23 @@ public class BattleController : MonoBehaviour
         _playerDeck.DrawCardsToHand(_openingHandSize);
     }
 
+    void OnEnable()
+    {
+        _playerHealth.OnDied += HandlePlayerDied;
+        _enemyHealth.OnDied += HandleEnemyDied;
+    }
+
+    void OnDisable()
+    {
+        _playerHealth.OnDied -= HandlePlayerDied;
+        _enemyHealth.OnDied -= HandleEnemyDied;
+    }
+
 
     private void AdvanceTurn()
     {
+        if (IsBattleOver) return;
+
         _currentPhase++;
         
         if((int)_currentPhase >= Enum.GetValues(typeof(TurnOrder)).Length)
@@ -67,6 +93,8 @@ public class BattleController : MonoBehaviour
 
     public void EndPlayerTurn()
     {
+        if (IsBattleOver) return;
+
         if (_currentPhase != TurnOrder.playerActive)
             return;
 
@@ -97,8 +125,31 @@ public class BattleController : MonoBehaviour
         AdvanceTurn();
     }
 
-    private void EndBattle()
+    private void HandlePlayerDied()
     {
-        
+        EndBattle(BattleResult.Defeat);
+    }
+    private void HandleEnemyDied()
+    {
+        EndBattle(BattleResult.Victory);
+    }
+
+    private void EndBattle(BattleResult result)
+    {
+        if (IsBattleOver)
+            return;
+
+        // Set the state before notifying anyone.
+        IsBattleOver = true;
+        Result = result;
+
+        StopAllCoroutines();
+
+        // Stop systems that own coroutines or card collections of their own.
+        _playerDeck.CancelPendingDraws();
+        var cardsFromHand = _playerHand.EmptyHand();
+        _discardController.DiscardAllCards(cardsFromHand);
+
+        OnBattleEnded?.Invoke(result);
     }
 }

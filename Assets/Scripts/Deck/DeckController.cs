@@ -8,7 +8,9 @@ public class DeckController : MonoBehaviour
     [SerializeField] private PlayerBattleContext _playerContext;
     [SerializeField, Min(0f)] private float waitBetweenDrawingCards = 0.25f;
 
-    public bool CanDraw => _deck != null && _deck.CanDraw;
+    private bool _acceptDrawRequests = true;
+
+    public bool CanDraw => _acceptDrawRequests && _deck != null && _deck.CanDraw;
 
     private bool TryDrawCardToHand()
     {
@@ -29,7 +31,17 @@ public class DeckController : MonoBehaviour
 
     public void DrawCardsToHand(int count)
     {
+        if (!_acceptDrawRequests || count <= 0)
+            return;
+
         StartCoroutine(DrawCardsToHandCo(count));
+    }
+
+    // DeckController owns its draw coroutines, so it also owns cancelling them.
+    public void CancelPendingDraws()
+    {
+        _acceptDrawRequests = false;
+        StopAllCoroutines();
     }
 
     private IEnumerator DrawCardsToHandCo(int amountToDraw)

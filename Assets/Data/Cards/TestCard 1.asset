@@ -16,7 +16,7 @@ MonoBehaviour:
   actionDescription: This is the first card
   cardLore: Card for testing
   currentHealth: 1
-  attackPower: 9
-  manaCost: 6
+  attackPower: 1
+  manaCost: 1
   characterSprite: {fileID: 21300000, guid: 047248d9510357d4d8037d05da0a33ce, type: 3}
   bgSprite: {fileID: 21300000, guid: 947eb1811c248cb4f8704b3548422538, type: 3}

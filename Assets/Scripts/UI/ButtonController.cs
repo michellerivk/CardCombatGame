@@ -14,6 +14,7 @@ public class ButtonController : MonoBehaviour
     {
         _manaPool.OnManaChanged += HandleManaChanged;
         _battleController.OnPhaseChanged += HandlePhaseChanged;
+        _battleController.OnBattleEnded += DisableButton;
     }
 
     private void Start()
@@ -25,6 +26,7 @@ public class ButtonController : MonoBehaviour
     {
         _manaPool.OnManaChanged -= HandleManaChanged;
         _battleController.OnPhaseChanged -= HandlePhaseChanged;
+        _battleController.OnBattleEnded -= DisableButton;
     }
 
     public void DrawButtonClicked()
@@ -41,5 +43,13 @@ public class ButtonController : MonoBehaviour
         _buttonVisual.alpha = canDraw ? 1f : 0f;
         _buttonVisual.interactable = canDraw;
         _buttonVisual.blocksRaycasts = canDraw;
+    }
+
+    // Maybe I should get the event from the UI controller in the future instead of the battle controller?
+    private void DisableButton(BattleResult result)
+    {
+        _buttonVisual.alpha = 0f;
+        _buttonVisual.interactable = false;
+        _buttonVisual.blocksRaycasts = false;
     }
 }

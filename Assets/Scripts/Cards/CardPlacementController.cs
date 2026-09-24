@@ -13,6 +13,8 @@ public class CardPlacementController : MonoBehaviour
     private int _selectedFrame = -1;
     private ManaPool _mana;
     private HandController _handController;
+    private BattleController _battleController;
+    private bool _listeningToBattle;
 
     private void Awake()
     {
@@ -23,17 +25,22 @@ public class CardPlacementController : MonoBehaviour
     {
         _input.OnPlacementInteraction += TryPlaceCard;
         _selection.OnSelectionChanged += HandleSelectionChanged;
+        SubscribeToBattle();
     }
 
     private void OnDisable()
     {
         _input.OnPlacementInteraction -= TryPlaceCard;
         _selection.OnSelectionChanged -= HandleSelectionChanged;
+        UnsubscribeFromBattle();
     }
 
-    public void Initialize(HandController handController, ManaPool mana)
+    public void Initialize(
+        HandController handController,
+        ManaPool mana,
+        BattleController battleController)
     {
-        if (handController == null || mana == null)
+        if (handController == null || mana == null || battleController == null)
         {
             Debug.LogError(
                 $"{name} received invalid player dependencies.",
@@ -42,12 +49,21 @@ public class CardPlacementController : MonoBehaviour
             return;
         }
 
+        UnsubscribeFromBattle();
         _handController = handController;
         _mana = mana;
+        _battleController = battleController;
+        SubscribeToBattle();
     }
 
     private void HandleSelectionChanged(bool isSelected)
     {
+        if (isSelected && !CanPlayerInteract())
+        {
+            _selection.UnSelectCard();
+            return;
+        }
+
         _selectedFrame = isSelected ? Time.frameCount : -1;
     }
 
@@ -56,14 +72,21 @@ public class CardPlacementController : MonoBehaviour
         if (!_selection.IsSelected || Time.frameCount == _selectedFrame)
             return;
 
-        if (_mainCamera == null || _handController == null)
+        // This must happen before raycasting or reserving a board slot.
+        if (!CanPlayerInteract())
         {
-            Debug.LogError("Card placement needs a Main Camera and a HandController.", this);
             ReturnToHand();
             return;
         }
 
-        if (_handController == null || _mana == null)
+        if (_mainCamera == null)
+        {
+            Debug.LogError("Card placement needs a Main Camera.", this);
+            ReturnToHand();
+            return;
+        }
+
+        if (_handController == null || _mana == null || _battleController == null)
         {
             Debug.LogError(
                 $"{name} has not been initialized by PlayerBattleContext.",
@@ -84,7 +107,15 @@ public class CardPlacementController : MonoBehaviour
         CardPlacePoint selectedPoint =
             hit.collider.GetComponentInParent<CardPlacePoint>();
 
-        if (selectedPoint == null || !selectedPoint.TryAssign(_card))
+        if (selectedPoint == null || !selectedPoint.IsPlayerPoint)
+        {
+            ReturnToHand();
+            return;
+        }
+
+        // Recheck every rule immediately before the only operation that reserves a slot.
+        if (!CanPlayerInteract() || !_mana.CanAfford(_card.ManaCost) ||
+            !selectedPoint.TryAssign(_card))
         {
             ReturnToHand();
             return;
@@ -119,5 +150,43 @@ public class CardPlacementController : MonoBehaviour
     private void ReturnToHand()
     {
         _selection.UnSelectCard();
+    }
+
+    private bool CanPlayerInteract()
+    {
+        return _battleController != null &&
+               !_battleController.IsBattleOver &&
+               _battleController.CurrentPhase == TurnOrder.playerActive;
+    }
+
+    private void SubscribeToBattle()
+    {
+        if (_listeningToBattle || _battleController == null || !isActiveAndEnabled)
+            return;
+
+        _battleController.OnPhaseChanged += HandlePhaseChanged;
+        _battleController.OnBattleEnded += HandleBattleEnded;
+        _listeningToBattle = true;
+    }
+
+    private void UnsubscribeFromBattle()
+    {
+        if (!_listeningToBattle || _battleController == null)
+            return;
+
+        _battleController.OnPhaseChanged -= HandlePhaseChanged;
+        _battleController.OnBattleEnded -= HandleBattleEnded;
+        _listeningToBattle = false;
+    }
+
+    private void HandlePhaseChanged(TurnOrder phase)
+    {
+        if (phase != TurnOrder.playerActive)
+            ReturnToHand();
+    }
+
+    private void HandleBattleEnded(BattleResult result)
+    {
+        ReturnToHand();
     }
 }

@@ -1,9 +1,12 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class CardDiscardController : MonoBehaviour
 {
     [SerializeField] private CardPlacePoint[] _placements;
     [SerializeField] private Transform _discardPoint;
+
+    private readonly HashSet<Card> _cardsBeingDiscarded = new HashSet<Card>();
 
     private void OnEnable()
     {
@@ -30,7 +33,43 @@ public class CardDiscardController : MonoBehaviour
 
     private void DiscardDefeatedCard(Card card)
     {
-        if (card == null) return;
+        DiscardCard(card);
+    }
+
+    public void DiscardAllCards(IReadOnlyList<Card> cardsFromHand)
+    {
+        HashSet<Card> cardsToDiscard = new HashSet<Card>();
+
+        if (cardsFromHand != null)
+        {
+            foreach (Card card in cardsFromHand)
+            {
+                if (card != null)
+                    cardsToDiscard.Add(card);
+            }
+        }
+
+        if (_placements != null)
+        {
+            foreach (CardPlacePoint point in _placements)
+            {
+                if (point == null || point.ActiveCard == null)
+                    continue;
+
+                Card card = point.ActiveCard;
+                point.Release(card);
+                cardsToDiscard.Add(card);
+            }
+        }
+
+        foreach (Card card in cardsToDiscard)
+            DiscardCard(card);
+    }
+
+    private void DiscardCard(Card card)
+    {
+        if (card == null || !_cardsBeingDiscarded.Add(card))
+            return;
 
         // The square has already released the card. Stop interaction during travel.
         if (card.TryGetComponent(out CardSelectionController selection))

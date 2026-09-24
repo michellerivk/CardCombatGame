@@ -3,10 +3,10 @@ using UnityEngine;
 
 public class HandController : MonoBehaviour
 {
-    [SerializeField] private List<Card> heldCards = new List<Card>();
-    [SerializeField] private Transform minPos, maxPos;
+    [SerializeField] private List<Card> _heldCards = new List<Card>();
+    [SerializeField] private Transform _minPos, _maxPos;
 
-    public IReadOnlyList<Card> HeldCards => heldCards;
+    public IReadOnlyList<Card> HeldCards => _heldCards;
 
     private void Start()
     {
@@ -16,12 +16,12 @@ public class HandController : MonoBehaviour
     private void SetCardPositionsInHand()
     {
         Vector3 distanceBetweenPoints = Vector3.zero;
-        if (heldCards.Count > 1)
-            distanceBetweenPoints = (maxPos.position - minPos.position) / (heldCards.Count - 1);
+        if (_heldCards.Count > 1)
+            distanceBetweenPoints = (_maxPos.position - _minPos.position) / (_heldCards.Count - 1);
 
-        for (int i = 0; i < heldCards.Count; i++)
+        for (int i = 0; i < _heldCards.Count; i++)
         {
-            Card card = heldCards[i];
+            Card card = _heldCards[i];
             if (!card.TryGetComponent(out CardHandState handState) ||
                 !card.TryGetComponent(out CardMotion motion))
             {
@@ -30,7 +30,7 @@ public class HandController : MonoBehaviour
             }
 
             handState.PlaceAt(i);
-            motion.SetHandPose(minPos.position + distanceBetweenPoints * i, minPos.rotation);
+            motion.SetHandPose(_minPos.position + distanceBetweenPoints * i, _minPos.rotation);
         }
     }
 
@@ -42,14 +42,14 @@ public class HandController : MonoBehaviour
             return false;
         }
 
-        int cardIndex = heldCards.IndexOf(card);
+        int cardIndex = _heldCards.IndexOf(card);
         if (cardIndex < 0)
         {
             Debug.LogError($"{card.name} is not registered in this hand.", card);
             return false;
         }
 
-        heldCards.RemoveAt(cardIndex);
+        _heldCards.RemoveAt(cardIndex);
         cardToRemove.RemoveFromHand();
         SetCardPositionsInHand();
         return true;
@@ -57,10 +57,34 @@ public class HandController : MonoBehaviour
 
     public void AddCard(Card card)
     {
-        if (card == null || heldCards.Contains(card))
+        if (card == null || _heldCards.Contains(card))
             return;
 
-        heldCards.Add(card);
+        _heldCards.Add(card);
         SetCardPositionsInHand();
+    }
+
+    // Removes ownership of every card and returns the cards to the caller that
+    // decides where they should visually go (for example, the discard pile).
+    public List<Card> EmptyHand()
+    {
+        List<Card> removedCards = new List<Card>(_heldCards);
+
+        foreach (Card heldCard in removedCards)
+        {
+            if (heldCard == null)
+                continue;
+
+            if (!heldCard.TryGetComponent(out CardHandState cardHandState))
+            {
+                Debug.LogError($"{heldCard.name} needs a CardHandState component.", heldCard);
+                continue;
+            }
+
+            cardHandState.RemoveFromHand();
+        }
+
+        _heldCards.Clear();
+        return removedCards;
     }
 }

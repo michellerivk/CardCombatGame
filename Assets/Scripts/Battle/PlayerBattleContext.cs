@@ -4,6 +4,7 @@ public class PlayerBattleContext : MonoBehaviour
 {
     [SerializeField] private ManaPool _mana;
     [SerializeField] private HandController _hand;
+    [SerializeField] private BattleController _battle;
 
     private void Awake()
     {
@@ -24,7 +25,7 @@ public class PlayerBattleContext : MonoBehaviour
             return false;
         }
 
-        placement.Initialize(_hand, _mana);
+        placement.Initialize(_hand, _mana, _battle);
         return true;
     }
 
@@ -37,7 +38,7 @@ public class PlayerBattleContext : MonoBehaviour
             return;
         }
 
-        placement.Initialize(_hand, _mana);
+        placement.Initialize(_hand, _mana, _battle);
         _hand.AddCard(card);
     }
 }

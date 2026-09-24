@@ -2,15 +2,28 @@ using UnityEngine;
 
 public class BattleLauncher : MonoBehaviour
 {
-    [SerializeField] private BattleSettingsSO[] _battleSettings;
+    [SerializeField] private BattleCatalogSO _battleCatalog;
     [SerializeField] private string _battleSceneName = "Battle";
 
-    public void StartDefaultBattle()
+    public void StartRandomBattle()
     {
-        StartBattle(_battleSettings[Random.Range(0, _battleSettings.Length)]);
+        if (_battleCatalog == null)
+        {
+            Debug.LogError("BattleLauncher needs a BattleCatalogSO.", this);
+            return;
+        }
+
+        BattleSettingsSO randomBattle = _battleCatalog.GetRandom(BattleSelection.Current);
+
+        if (randomBattle == null)
+        {
+            Debug.LogError("The battle catalog contains no battles.", this);
+            return;
+        }
+
+        StartBattle(randomBattle);
     } 
 
-    // Multiple menu buttons can call this same method and supply different assets.
     public void StartBattle(BattleSettingsSO settings)
     {
         if (settings == null)

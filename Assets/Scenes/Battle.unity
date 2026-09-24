@@ -363,9 +363,9 @@ RectTransform:
   - {fileID: 594865155}
   m_Father: {fileID: 1554347763}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0}
-  m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 250}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: -405, y: 250}
   m_SizeDelta: {x: 400, y: 350}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!225 &22937337
@@ -2941,9 +2941,9 @@ RectTransform:
   - {fileID: 1457234940}
   m_Father: {fileID: 1554347763}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0}
-  m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -405, y: 250}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: 0, y: 250}
   m_SizeDelta: {x: 400, y: 350}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!225 &1259978786
@@ -3339,7 +3339,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Select A New Battle
+  m_text: New Battle
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 854b26f88e5c36b42bd51da2cdd65cc4, type: 2}
   m_sharedMaterial: {fileID: 1184153602935217428, guid: 854b26f88e5c36b42bd51da2cdd65cc4, type: 2}
@@ -3589,6 +3589,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1554347763}
   - component: {fileID: 1554347766}
+  - component: {fileID: 1554347770}
   - component: {fileID: 1554347765}
   - component: {fileID: 1554347764}
   - component: {fileID: 1554347768}
@@ -3694,6 +3695,8 @@ MonoBehaviour:
   _anim: {fileID: 1554347769}
   _resultText: {fileID: 458093501}
   _battleController: {fileID: 466963357}
+  _mainMenuSceneName: MainMenu
+  _battleLauncher: {fileID: 1554347770}
 --- !u!225 &1554347768
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -3728,6 +3731,20 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1554347770
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1554347762}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53df86b9d4154e0ba3fa49c8a81aee02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BattleLauncher
+  _battleCatalog: {fileID: 11400000, guid: 42d4cfba3104f19428838dbf78a12a0e, type: 2}
+  _battleSceneName: Battle
 --- !u!1 &1631228909
 GameObject:
   m_ObjectHideFlags: 0

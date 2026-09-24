@@ -7,6 +7,8 @@ public class EndBattleScreenView : MonoBehaviour
     [SerializeField] private Animator _anim;
     [SerializeField] private TextMeshProUGUI _resultText;
     [SerializeField] private BattleController _battleController;
+    [SerializeField] private string _mainMenuSceneName = "MainMenu";
+    [SerializeField] private BattleLauncher _battleLauncher;
 
     void Awake()
     {
@@ -48,11 +50,23 @@ public class EndBattleScreenView : MonoBehaviour
 
     public void MainMenuButton()
     {
+        if (SceneTransitionController.Instance == null)
+        {
+            Debug.LogError("No SceneTransitionController exists.", this);
+            return;
+        }
+
+        SceneTransitionController.Instance.LoadScene(_mainMenuSceneName);
     }
     public void PlayAgainButton()
     {
+        if (SceneTransitionController.Instance == null)
+            return;
+
+        SceneTransitionController.Instance.ReloadCurrentScene();
     }
     public void NewGameButton()
     {
+        _battleLauncher.StartRandomBattle();
     }
 }

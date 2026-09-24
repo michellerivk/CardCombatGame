@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: Battle3Settings
   m_EditorClassIdentifier: Assembly-CSharp::BattleSettingsSO
   _battleName: First Battle
-  _deskMaterial: {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  _deskMaterial: {fileID: 2100000, guid: 5024ba8e321118c429afd68d9de3d48e, type: 2}
   _background: {fileID: 0}
   _enemyAIType: 3
   _enemyDeck:
   - {fileID: 11400000, guid: 59b8781bf8ed39b44a296d342be7e71f, type: 2}
-  _enemyStartingHealth: 50
+  _enemyStartingHealth: 2
   _enemyStartingMana: 4
   _enemyOpeningHandSize: 5
   _enemyCardsPlayedPerTurn: 5

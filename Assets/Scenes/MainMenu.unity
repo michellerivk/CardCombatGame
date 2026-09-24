@@ -755,10 +755,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53df86b9d4154e0ba3fa49c8a81aee02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BattleLauncher
-  _battleSettings:
-  - {fileID: 11400000, guid: 3d4e139f117a47f69a2b8e37f6b0ff10, type: 2}
-  - {fileID: 11400000, guid: cb10f7dc4ad5de24392ea47047e14986, type: 2}
-  - {fileID: 11400000, guid: 6932bfc31f72c7045a7e0c64dfb5fef6, type: 2}
+  _battleCatalog: {fileID: 11400000, guid: 42d4cfba3104f19428838dbf78a12a0e, type: 2}
   _battleSceneName: Battle
 --- !u!1 &1087976032
 GameObject:
@@ -1133,7 +1130,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1050875572}
         m_TargetAssemblyTypeName: BattleLauncher, Assembly-CSharp
-        m_MethodName: StartDefaultBattle
+        m_MethodName: StartRandomBattle
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

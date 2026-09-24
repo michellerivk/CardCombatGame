@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f06351091ebe2e042a85594df820e135, type: 3}
+  m_Name: BattleCatalog
+  m_EditorClassIdentifier: Assembly-CSharp::BattleCatalogSO
+  _battles:
+  - {fileID: 11400000, guid: 3d4e139f117a47f69a2b8e37f6b0ff10, type: 2}
+  - {fileID: 11400000, guid: cb10f7dc4ad5de24392ea47047e14986, type: 2}
+  - {fileID: 11400000, guid: 6932bfc31f72c7045a7e0c64dfb5fef6, type: 2}

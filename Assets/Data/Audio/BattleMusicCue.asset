@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e5ba3fd1f4a151458ee5d5fe0c8fdb7, type: 3}
+  m_Name: BattleMusicCue
+  m_EditorClassIdentifier: Assembly-CSharp::AudioCueSO
+  _clips:
+  - {fileID: 8300000, guid: 0ae69326ec0ec364aa58939b288bb7dc, type: 3}
+  - {fileID: 8300000, guid: ac87fd86922e9db40937260f20ce519d, type: 3}
+  - {fileID: 8300000, guid: 3ffd14d4d801459459158bed2f0f8f2b, type: 3}
+  - {fileID: 8300000, guid: daff28c22c384734bb2bfe83003fcafa, type: 3}
+  - {fileID: 8300000, guid: e17f4af890cb9fa4d9f53728b76717c9, type: 3}
+  - {fileID: 8300000, guid: 211ec56bfce42044b98d93b6ba755a63, type: 3}
+  - {fileID: 8300000, guid: 840200e8831561246bb2a0faaaf2a4ac, type: 3}
+  - {fileID: 8300000, guid: b28870ca71857444a8679875fca7187e, type: 3}
+  - {fileID: 8300000, guid: 60891215c02ad8b4e87b5e9275ee48b5, type: 3}
+  - {fileID: 8300000, guid: 77fbc8ef20ae6064b8042734d39149cb, type: 3}
+  _outputMixerGroup: {fileID: -4787883494158240066, guid: 1d9087d5591c672438810c0fbb1e440b, type: 2}
+  _volumeRange: {x: 1, y: 1}
+  _pitchRange: {x: 1, y: 1}

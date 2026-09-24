@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -11,6 +12,7 @@ public class DeckController : MonoBehaviour
     private bool _acceptDrawRequests = true;
 
     public bool CanDraw => _acceptDrawRequests && _deck != null && _deck.CanDraw;
+    public event Action<Card> OnCardDrawn;
 
     private bool TryDrawCardToHand()
     {
@@ -26,6 +28,7 @@ public class DeckController : MonoBehaviour
         Card newCard = Instantiate(_cardToSpawn, transform.position, transform.rotation);
         newCard.Initialize(definition);
         _playerContext.AddCardToHand(newCard);
+        OnCardDrawn?.Invoke(newCard);
         return true;
     }
 

@@ -8,6 +8,7 @@ public class CardPlacePoint : MonoBehaviour
 
     public Card ActiveCard => _activeCard;
     public bool IsPlayerPoint => _isPlayerPoint;
+    public event Action<Card> OnCardAssigned;
     public event Action<Card> OnCardDefeated;
 
     private void Awake()
@@ -33,6 +34,7 @@ public class CardPlacePoint : MonoBehaviour
 
         _activeCard = card;
         card.OnDefeated += HandleCardDefeated;
+        OnCardAssigned?.Invoke(card);
 
         return true;
     }

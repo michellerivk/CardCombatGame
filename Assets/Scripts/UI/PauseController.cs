@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 public class PauseController : MonoBehaviour
 {
     [SerializeField] private GameObject _pauseScreen;
+    [SerializeField] private Animator _anim;
 
     private bool _isPaused;
     private float _timeScaleBeforePause = 1f;
@@ -20,7 +21,7 @@ public class PauseController : MonoBehaviour
             return;
         }
 
-        _pauseScreen.SetActive(false);
+        //_pauseScreen.SetActive(false);
     }
 
     private void Update()
@@ -49,7 +50,9 @@ public class PauseController : MonoBehaviour
         _timeScaleBeforePause = Time.timeScale;
         _audioWasPaused = AudioListener.pause;
 
-        _pauseScreen.SetActive(true);
+        _anim.SetTrigger("Appear");
+
+        //_pauseScreen.SetActive(true);
         Time.timeScale = 0f;
         AudioListener.pause = true;
     }
@@ -65,7 +68,10 @@ public class PauseController : MonoBehaviour
         Time.timeScale = _timeScaleBeforePause;
         AudioListener.pause = _audioWasPaused;
         _isPaused = false;
-        _pauseScreen.SetActive(false);
+
+        _anim.SetTrigger("Disappear");
+
+        //_pauseScreen.SetActive(false);
     }
 
     private void OnDisable()

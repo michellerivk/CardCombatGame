@@ -10,7 +10,7 @@ public class UIController : MonoBehaviour
     [Header("Texts References")]
     [SerializeField] private TextMeshProUGUI _playerManaText;
     [SerializeField] private TextMeshProUGUI _enemyManaText;
-    [SerializeField] private TextMeshProUGUI _notEnoughManaText;
+    [SerializeField] private GameObject _notEnoughManaText;
 
     [Header("Timer")]
     [SerializeField] private float _manaWarningTime;

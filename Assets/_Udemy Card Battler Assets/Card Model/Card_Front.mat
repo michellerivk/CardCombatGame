@@ -29,7 +29,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Base_Texture:
-        m_Texture: {fileID: 2800000, guid: 0e11e39e33ffa694a95130dda904bd9c, type: 3}
+        m_Texture: {fileID: 2800000, guid: dc89abe866682754fba3bc14f22a892a, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -53,7 +53,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Holo_Mask:
-        m_Texture: {fileID: 2800000, guid: a7466cbd11615ca4b860fb057cf80646, type: 3}
+        m_Texture: {fileID: 2800000, guid: 19ff9d3678b262a4eb45961418e272ee, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Holo_Texture:
@@ -133,8 +133,8 @@ Material:
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Base_Color: {r: 1, g: 1, b: 1, a: 0}
-    - _Base_Offset: {r: 0, g: 0, b: 0, a: 0}
-    - _Base_Tiling: {r: 1, g: 1, b: 0, a: 0}
+    - _Base_Offset: {r: 0.015, g: 0.015, b: 0, a: 0}
+    - _Base_Tiling: {r: 0.97, g: 0.97, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Holo_Mask_Offset: {r: 0, g: 0, b: 0, a: 0}

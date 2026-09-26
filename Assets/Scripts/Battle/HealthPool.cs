@@ -6,6 +6,7 @@ public class HealthPool : MonoBehaviour
     [SerializeField, Min(0)] private int _currentHealth = 50;
 
     public int CurrentHealth => _currentHealth;
+    public int MaximumHealth { get; private set; } = 50;
     public bool IsDead => _currentHealth <= 0;
 
     public event Action<int> OnHealthChanged, OnDamaged;
@@ -14,6 +15,7 @@ public class HealthPool : MonoBehaviour
     public void Initialize(int startingHealth)
     {
         _currentHealth = Mathf.Max(1, startingHealth);
+        MaximumHealth = _currentHealth;
         OnHealthChanged?.Invoke(_currentHealth);
     }
 

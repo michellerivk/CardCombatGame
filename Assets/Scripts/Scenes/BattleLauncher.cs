@@ -5,6 +5,18 @@ public class BattleLauncher : MonoBehaviour
     [SerializeField] private BattleCatalogSO _battleCatalog;
     [SerializeField] private string _battleSceneName = "Battle";
 
+    public void QuitGame()
+    {
+        // Resolve the persistent controller at click time after returning to the menu.
+        if (SceneTransitionController.Instance == null)
+        {
+            Debug.LogError("Quitting needs a SceneTransitionController.", this);
+            return;
+        }
+
+        SceneTransitionController.Instance.QuitGame();
+    }
+
     public void StartRandomBattle()
     {
         if (_battleCatalog == null)

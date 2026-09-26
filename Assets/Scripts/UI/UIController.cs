@@ -1,5 +1,5 @@
-using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIController : MonoBehaviour
 {
@@ -7,9 +7,12 @@ public class UIController : MonoBehaviour
     [SerializeField] private ManaPool _playerMana;
     [SerializeField] private ManaPool _enemyMana;
 
-    [Header("Texts References")]
-    [SerializeField] private TextMeshProUGUI _playerManaText;
-    [SerializeField] private TextMeshProUGUI _enemyManaText;
+    [Header("Mana Pips (left to right)")]
+    [SerializeField] private Image[] _playerFullPips;
+    [SerializeField] private Image[] _playerEmptyPips;
+    [SerializeField] private Image[] _enemyFullPips;
+    [SerializeField] private Image[] _enemyEmptyPips;
+    [Header("Warning")]
     [SerializeField] private GameObject _notEnoughManaText;
 
     [Header("Timer")]
@@ -43,6 +46,8 @@ public class UIController : MonoBehaviour
         _playerMana.OnManaChanged += UpdatePlayerMana;
         _enemyMana.OnManaChanged += UpdateEnemyMana;
         _playerMana.OnNotEnoughMana += ShowManaWarning;
+        UpdatePlayerMana(_playerMana.Current, _playerMana.Maximum);
+        UpdateEnemyMana(_enemyMana.Current, _enemyMana.Maximum);
     }
     private void OnDisable()
     {
@@ -53,11 +58,34 @@ public class UIController : MonoBehaviour
 
     private void UpdatePlayerMana(int newMana, int maxMana)
     {
-        _playerManaText.text = "Mana: " + newMana + " / " + maxMana;
+        UpdatePips(_playerFullPips, _playerEmptyPips, newMana, maxMana);
     }
     private void UpdateEnemyMana(int newMana, int maxMana)
     {
-        _enemyManaText.text = "Mana: " + newMana + " / " + maxMana;
+        UpdatePips(_enemyFullPips, _enemyEmptyPips, newMana, maxMana);
+    }
+    private static void UpdatePips(Image[] fullPips, Image[] emptyPips, int current, int maximum)
+    {
+        if (fullPips != null)
+            for (int i = 0; i < fullPips.Length; i++)
+                SetPipVisible(fullPips[i], i < current && i < maximum);
+        if (emptyPips != null)
+            for (int i = 0; i < emptyPips.Length; i++)
+                SetPipVisible(emptyPips[i], i < maximum);
+    }
+
+    private static void SetPipVisible(Image pip, bool visible)
+    {
+        if (pip == null) return;
+
+        // Disabled Images stop supplying preferred dimensions to the layout group.
+        // Transparency hides the artwork while preserving identical slot sizes.
+        pip.enabled = true;
+        pip.preserveAspect = true;
+        Color color = pip.color;
+        color.a = visible ? 1f : 0f;
+        pip.color = color;
+        pip.raycastTarget = false;
     }
     private void ShowManaWarning()
     {

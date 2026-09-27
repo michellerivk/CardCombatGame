@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PoisonAbilitySO
   abilityName: Poison
   abilityDescription: Will kill any oposing card with one hit
-  icon: {fileID: 0}
+  icon: {fileID: -4347532159779508366, guid: e2151a96ebf067c489ab438e927f05b2, type: 3}
   _priority: 0

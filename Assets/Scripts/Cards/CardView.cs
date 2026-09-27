@@ -13,6 +13,8 @@ public class CardView : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _loreText;
     [SerializeField] private Image _characterArt;
     [SerializeField] private Image _bgArt;
+    [SerializeField] private GameObject _abilityRoot;
+    [SerializeField] private Image _abilitySymbol;
 
     [SerializeField] private Card _card;
     private bool _started;
@@ -52,6 +54,30 @@ public class CardView : MonoBehaviour
 
         _bgArt.sprite = _card.CardBG;
         _characterArt.sprite = _card.CardCharacter;
+
+        SetupAbilityView();
+    }
+
+    private void SetupAbilityView()
+    {
+        Sprite icon = null;
+        foreach (CardAbility ability in _card.Abilities)
+        {
+            if (ability.Definition.icon == null)
+                continue;
+
+            icon = ability.Definition.icon;
+            break;
+        }
+
+        if (_abilitySymbol != null)
+        {
+            _abilitySymbol.sprite = icon;
+            _abilitySymbol.enabled = icon != null;
+        }
+
+        if (_abilityRoot != null)
+            _abilityRoot.SetActive(icon != null);
     }
 
 }

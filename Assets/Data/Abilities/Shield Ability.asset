@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ShieldAbilitySO
   abilityName: Shield
   abilityDescription: Won't take damage on it's first hit
-  icon: {fileID: 0}
+  icon: {fileID: -6717884257390833292, guid: 848de4b88a2996140948e71be5ebb27a, type: 3}
   _priority: 0
   _blockedHits: 1
